@@ -10,6 +10,15 @@
 		4650D1361AF032CB00602E94 /* QHull.h in Headers */ = {isa = PBXBuildFile; fileRef = 4650D1351AF032CB00602E94 /* QHull.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4650D13C1AF032CB00602E94 /* QHull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4650D1301AF032CB00602E94 /* QHull.framework */; };
 		4650D1431AF032CB00602E94 /* QHullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1421AF032CB00602E94 /* QHullTests.swift */; };
+		4650D1551AF032D500602E94 /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14C1AF032D500602E94 /* Face.swift */; };
+		4650D1561AF032D500602E94 /* FaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14D1AF032D500602E94 /* FaceList.swift */; };
+		4650D1571AF032D500602E94 /* HalfEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14E1AF032D500602E94 /* HalfEdge.swift */; };
+		4650D1581AF032D500602E94 /* QuickHull3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14F1AF032D500602E94 /* QuickHull3D.swift */; };
+		4650D1591AF032D500602E94 /* Vector3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1501AF032D500602E94 /* Vector3d.swift */; };
+		4650D15A1AF032D500602E94 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1511AF032D500602E94 /* Vertex.swift */; };
+		4650D15B1AF032D500602E94 /* Point3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1521AF032D500602E94 /* Point3d.swift */; };
+		4650D15C1AF032D500602E94 /* VertexList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1531AF032D500602E94 /* VertexList.swift */; };
+		4650D15D1AF032D500602E94 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1541AF032D500602E94 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +38,15 @@
 		4650D13B1AF032CB00602E94 /* QHullTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QHullTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4650D1411AF032CB00602E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4650D1421AF032CB00602E94 /* QHullTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHullTests.swift; sourceTree = "<group>"; };
+		4650D14C1AF032D500602E94 /* Face.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
+		4650D14D1AF032D500602E94 /* FaceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceList.swift; sourceTree = "<group>"; };
+		4650D14E1AF032D500602E94 /* HalfEdge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfEdge.swift; sourceTree = "<group>"; };
+		4650D14F1AF032D500602E94 /* QuickHull3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickHull3D.swift; sourceTree = "<group>"; };
+		4650D1501AF032D500602E94 /* Vector3d.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3d.swift; sourceTree = "<group>"; };
+		4650D1511AF032D500602E94 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		4650D1521AF032D500602E94 /* Point3d.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3d.swift; sourceTree = "<group>"; };
+		4650D1531AF032D500602E94 /* VertexList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexList.swift; sourceTree = "<group>"; };
+		4650D1541AF032D500602E94 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +90,15 @@
 			isa = PBXGroup;
 			children = (
 				4650D1351AF032CB00602E94 /* QHull.h */,
+				4650D14C1AF032D500602E94 /* Face.swift */,
+				4650D14D1AF032D500602E94 /* FaceList.swift */,
+				4650D14E1AF032D500602E94 /* HalfEdge.swift */,
+				4650D14F1AF032D500602E94 /* QuickHull3D.swift */,
+				4650D1501AF032D500602E94 /* Vector3d.swift */,
+				4650D1511AF032D500602E94 /* Vertex.swift */,
+				4650D1521AF032D500602E94 /* Point3d.swift */,
+				4650D1531AF032D500602E94 /* VertexList.swift */,
+				4650D1541AF032D500602E94 /* Random.swift */,
 				4650D1331AF032CB00602E94 /* Supporting Files */,
 			);
 			path = QHull;
@@ -209,6 +236,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4650D1561AF032D500602E94 /* FaceList.swift in Sources */,
+				4650D15B1AF032D500602E94 /* Point3d.swift in Sources */,
+				4650D1581AF032D500602E94 /* QuickHull3D.swift in Sources */,
+				4650D1551AF032D500602E94 /* Face.swift in Sources */,
+				4650D1591AF032D500602E94 /* Vector3d.swift in Sources */,
+				4650D15C1AF032D500602E94 /* VertexList.swift in Sources */,
+				4650D1571AF032D500602E94 /* HalfEdge.swift in Sources */,
+				4650D15A1AF032D500602E94 /* Vertex.swift in Sources */,
+				4650D15D1AF032D500602E94 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +359,7 @@
 		4650D1471AF032CB00602E94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -332,12 +369,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4650D1481AF032CB00602E94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
