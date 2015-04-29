@@ -156,7 +156,7 @@ public class QuickHull3D
     var charLength = 0.0
     var pointBuffer = [Vertex]()
     var vertexPointIndices = [Int]()
-    var discardedFaces =  [Face]()
+    var discardedFaces =  [Face?](count:3, repeatedValue:nil)
     
     var maxVtxs = [Vertex](count:3, repeatedValue:Vertex())
     var minVtxs = [Vertex](count:3, repeatedValue:Vertex())
@@ -829,7 +829,7 @@ public class QuickHull3D
     
                 let numd = face.mergeAdjacentFace (hedge, discarded: &discardedFaces);
                 for  i in 0..<numd{
-                    deleteFacePoints (discardedFaces[i], absorbingFace: face);
+                    deleteFacePoints (discardedFaces[i]!, absorbingFace: face);
                 }
                 if (debug){
                     println("  result:\(face.getVertexString())");

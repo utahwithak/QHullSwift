@@ -394,7 +394,7 @@ public class Face{
     
     
 //
-    public func mergeAdjacentFace ( hedgeAdj:HalfEdge,inout discarded:[Face])->Int
+    public func mergeAdjacentFace ( hedgeAdj:HalfEdge,inout discarded:[Face?])->Int
     {
         var oppFace = hedgeAdj.oppositeFace()!;
         var numDiscarded = 0;
