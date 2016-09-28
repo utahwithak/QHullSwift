@@ -14,7 +14,7 @@ import Foundation
 *
 * @author John E. Lloyd, Fall 2004
 */
-public class Vertex{
+open class Vertex{
     /**
     * Spatial point associated with this vertex.
     */

@@ -25,7 +25,7 @@ import Foundation
 /// inspired by javax.vecmath). Only a mininal number of methods
 /// which are relevant to convex hull generation are supplied here.
 /// @author John E. Lloyd, Fall 2004
-public class Vector3d:Printable{
+open class Vector3d:CustomStringConvertible{
     /**
     * Precision of a double.
     */
@@ -34,17 +34,17 @@ public class Vector3d:Printable{
     /**
     * First element
     */
-    public var x:Double = 0;
+    open var x:Double = 0;
     
     /**
     * Second element
     */
-    public var y:Double = 0;
+    open var y:Double = 0;
     
     /**
     * Third element
     */
-    public var z:Double = 0;
+    open var z:Double = 0;
     
     /**
     * Creates a 3-vector and initializes its elements to 0.
@@ -82,7 +82,7 @@ public class Vector3d:Printable{
     * @return element value throws ArrayIndexOutOfBoundsException
     * if i is not in the range 0 to 2.
     */
-    public func get(i:Int)->Double{
+    open func get(_ i:Int)->Double{
         
         switch (i){
         case 0:
@@ -106,7 +106,7 @@ public class Vector3d:Printable{
     * @return element value throws ArrayIndexOutOfBoundsException
     * if i is not in the range 0 to 2.
     */
-    public func set( i:Int,  value:Double){
+    open func set( _ i:Int,  value:Double){
         switch (i){
         case 0:
             x = value;
@@ -124,7 +124,7 @@ public class Vector3d:Printable{
     *
     * @param v1 vector whose values are copied
     */
-    public func set( v1:Vector3d)
+    open func set( _ v1:Vector3d)
     {
 	   x = v1.x;
 	   y = v1.y;
@@ -137,7 +137,7 @@ public class Vector3d:Printable{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    public func add (v1:Vector3d , v2:Vector3d)
+    open func add (_ v1:Vector3d , v2:Vector3d)
     {
 	   x = v1.x + v2.x;
 	   y = v1.y + v2.y;
@@ -149,7 +149,7 @@ public class Vector3d:Printable{
     *
     * @param v1 right-hand vector
     */
-    public func add (v1:Vector3d )
+    open func add (_ v1:Vector3d )
     {
 	   x += v1.x;
 	   y += v1.y;
@@ -162,7 +162,7 @@ public class Vector3d:Printable{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    public func sub (v1:Vector3d , v2:Vector3d)
+    open func sub (_ v1:Vector3d , v2:Vector3d)
     {
 	   x = v1.x - v2.x;
 	   y = v1.y - v2.y;
@@ -174,7 +174,7 @@ public class Vector3d:Printable{
     *
     * @param v1 right-hand vector
     */
-    public func sub (v1:Vector3d )
+    open func sub (_ v1:Vector3d )
     {
 	   x -= v1.x;
 	   y -= v1.y;
@@ -186,7 +186,7 @@ public class Vector3d:Printable{
     *
     * @param s scaling factor
     */
-    public func scale (s:Double)
+    open func scale (_ s:Double)
     {
 	   x = s*x;
 	   y = s*y;
@@ -200,7 +200,7 @@ public class Vector3d:Printable{
     * @param s scaling factor
     * @param v1 vector to be scaled
     */
-    public func scale (s:Double, v1:Vector3d )
+    open func scale (_ s:Double, v1:Vector3d )
     {
 	   x = s*v1.x;
 	   y = s*v1.y;
@@ -213,7 +213,7 @@ public class Vector3d:Printable{
     *
     * @return vector 2 norm
     */
-    public func norm()->Double
+    open func norm()->Double
     {
 	   return sqrt(x*x + y*y + z*z);
     }
@@ -224,7 +224,7 @@ public class Vector3d:Printable{
     *
     * @return square of the 2 norm
     */
-    public func normSquared()->Double
+    open func normSquared()->Double
     {
 	   return x*x + y*y + z*z;
     }
@@ -234,7 +234,7 @@ public class Vector3d:Printable{
     *
     * @return distance between this vector and v
     */
-    public func distance(v:Vector3d)->Double
+    open func distance(_ v:Vector3d)->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -249,7 +249,7 @@ public class Vector3d:Printable{
     *
     * @return squared distance between this vector and v
     */
-    public func distanceSquared(v:Vector3d )->Double
+    open func distanceSquared(_ v:Vector3d )->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -264,7 +264,7 @@ public class Vector3d:Printable{
     * @param v1 right-hand vector
     * @return dot product
     */
-    public func dot (v1:Vector3d )->Double
+    open func dot (_ v1:Vector3d )->Double
     {
 	   return x*v1.x + y*v1.y + z*v1.z;
     }
@@ -272,7 +272,7 @@ public class Vector3d:Printable{
     /**
     * Normalizes this vector in place.
     */
-    public func normalize()
+    open func normalize()
     {
         let lenSqr = x*x + y*y + z*z;
         let err = lenSqr - 1;
@@ -288,7 +288,7 @@ public class Vector3d:Printable{
     /**
     * Sets the elements of this vector to zero.
     */
-    public func setZero()
+    open func setZero()
     {
 	   x = 0;
 	   y = 0;
@@ -302,7 +302,7 @@ public class Vector3d:Printable{
     * @param y value for second element
     * @param z value for third element
     */
-    public func set (x:Double,  y:Double,  z:Double)
+    open func set (_ x:Double,  y:Double,  z:Double)
     {
 	   self.x = x;
 	   self.y = y;
@@ -316,7 +316,7 @@ public class Vector3d:Printable{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    public func cross (v1:Vector3d , v2:Vector3d)
+    open func cross (_ v1:Vector3d , v2:Vector3d)
     {
 	   let tmpx = v1.y*v2.z - v1.z*v2.y;
 	   let tmpy = v1.z*v2.x - v1.x*v2.z;
@@ -336,7 +336,7 @@ public class Vector3d:Printable{
     * @param upper upper random value (exclusive)
     * @param generator random number generator
     */
-    func setRandom ( lower:Double,  upper:Double, generator:Random)
+    func setRandom ( _ lower:Double,  upper:Double, generator:Random)
     {
 	   let range = upper-lower;
     
@@ -351,7 +351,7 @@ public class Vector3d:Printable{
     *
     * @return string representation
     */
-    public var description:String{
+    open var description:String{
     
 	   return "\(x) \(y) \(z)"
     }

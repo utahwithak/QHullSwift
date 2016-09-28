@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public class Random{
+open class Random{
     func nextDouble()->Double{
         return 0.4
     }

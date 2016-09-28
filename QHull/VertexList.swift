@@ -11,15 +11,15 @@ import Foundation
 /**
 * Maintains a double-linked list of vertices for use by QuickHull3D
 */
-public class VertexList
+open class VertexList
 {
-    private var head:Vertex? = nil;
-    private var tail:Vertex? = nil;
+    fileprivate var head:Vertex? = nil;
+    fileprivate var tail:Vertex? = nil;
     
     /**
     * Clears this list.
     */
-    public func clear()
+    open func clear()
     {
         head = nil
         tail = nil;
@@ -28,7 +28,7 @@ public class VertexList
     /**
     * Adds a vertex to the end of this list.
     */
-    public func add(vtx:Vertex)
+    open func add(_ vtx:Vertex)
     {
         if (head == nil){
             head = vtx;
@@ -44,7 +44,7 @@ public class VertexList
     /**
     * Adds a chain of vertices to the end of this list.
     */
-    public func addAll ( vtx:Vertex)
+    open func addAll ( _ vtx:Vertex)
     {
         if (head == nil){
             head = vtx;
@@ -63,7 +63,7 @@ public class VertexList
     /**
     * Deletes a vertex from this list.
     */
-    public func delete (vtx:Vertex ){
+    open func delete (_ vtx:Vertex ){
         if (vtx.prev == nil){
             head = vtx.next;
         }
@@ -81,7 +81,7 @@ public class VertexList
     /**
     * Deletes a chain of vertices from this list.
     */
-    public func delete (vtx1:Vertex, vtx2:Vertex){
+    open func delete (_ vtx1:Vertex, vtx2:Vertex){
         if (vtx1.prev == nil){
             head = vtx2.next;
         }
@@ -100,7 +100,7 @@ public class VertexList
     * Inserts a vertex into this list before another
     * specificed vertex.
     */
-    public func insertBefore (vtx:Vertex ,  next:Vertex)
+    open func insertBefore (_ vtx:Vertex ,  next:Vertex)
     {
         vtx.prev = next.prev;
         if (next.prev == nil){
@@ -116,7 +116,7 @@ public class VertexList
     /**
     * Returns the first element in this list.
     */
-    public func first()->Vertex?
+    open func first()->Vertex?
     {
 	   return head;
     }
@@ -124,7 +124,7 @@ public class VertexList
     /**
     * Returns true if this list is empty.
     */
-    public func isEmpty()->Bool
+    open func isEmpty()->Bool
     {
 	   return head == nil;
     }

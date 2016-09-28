@@ -31,7 +31,7 @@ import Foundation
 *
 * @author John E. Lloyd, Fall 2004
 */
-public class Point3d:Vector3d {
+open class Point3d:Vector3d {
     public override init(){
         super.init()
     }

@@ -26,7 +26,7 @@ import Foundation
 * face in a counter-clockwise direction.
 *
 * @author John E. Lloyd, Fall 2004 */
-public class HalfEdge{
+open class HalfEdge{
     /**
     * The vertex associated with the head of this half-edge.
     */
@@ -72,7 +72,7 @@ public class HalfEdge{
     *
     * @param edge opposite half-edge
     */
-    public func setOpposite(edge:HalfEdge )
+    open func setOpposite(_ edge:HalfEdge )
     {
 	   opposite = edge;
 	   edge.opposite = self;
@@ -83,7 +83,7 @@ public class HalfEdge{
     *
     * @return head vertex
     */
-    public func head()->Vertex
+    open func head()->Vertex
     {
 	   return vertex;
     }
@@ -93,7 +93,7 @@ public class HalfEdge{
     *
     * @return tail vertex
     */
-    public func tail()->Vertex?
+    open func tail()->Vertex?
     {
 	   return prev != nil ? prev!.vertex : nil;
     }
@@ -104,7 +104,7 @@ public class HalfEdge{
     *
     * @return opposite triangular face
     */
-    public func oppositeFace()->Face?
+    open func oppositeFace()->Face?
     {
 	   return opposite != nil ? opposite!.face : nil;
     }
@@ -115,7 +115,7 @@ public class HalfEdge{
     *
     * @return identifying string
     */
-    public func getVertexString()->String{
+    open func getVertexString()->String{
         if let tail = tail(){
             return "\(tail.index)-\(head().index)"
         }
@@ -129,7 +129,7 @@ public class HalfEdge{
     *
     * @return half-edge length
     */
-    public func length()->Double
+    open func length()->Double
     {
         if let tail = tail(){
             return head().pnt.distance(tail.pnt);
@@ -144,7 +144,7 @@ public class HalfEdge{
     *
     * @return half-edge length squared
     */
-    public func lengthSquared()->Double
+    open func lengthSquared()->Double
     {
         if let tail = tail(){
             return head().pnt.distanceSquared(tail.pnt);

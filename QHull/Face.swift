@@ -30,32 +30,32 @@ import Foundation
 * counter-clockwise direction.
 *
 * @author John E. Lloyd, Fall 2004 */
-public class Face{
+open class Face{
     
     static let VISIBLE = 1;
     static let NON_CONVEX = 2;
     static let DELETED = 3;
     
     
-    public  var he0:HalfEdge!
-    private var normal = Vector3d() ;
-    public  var area:Double = 0;
-    private var centroid = Point3d();
-    public  var planeOffset = 0.0;
+    open  var he0:HalfEdge!
+    fileprivate var normal = Vector3d() ;
+    open  var area:Double = 0;
+    fileprivate var centroid = Point3d();
+    open  var planeOffset = 0.0;
     
     var index = 0;
     var numVerts = 0;
     
-    public var next:Face? = nil;
+    open var next:Face? = nil;
     
     var mark = Face.VISIBLE;
     
     var outside:Vertex? = nil;
     
-    public func computeCentroid (centroid:Point3d){
+    open func computeCentroid (_ centroid:Point3d){
         centroid.setZero();
         var he = he0!;
-        do
+        repeat
         {
             centroid.add(he.head().pnt);
             he = he.next!;
@@ -64,7 +64,7 @@ public class Face{
         centroid.scale(1.0/Double(numVerts));
     }
 
-    public func computeNormal ( normal:Vector3d,  minArea:Double)
+    open func computeNormal ( _ normal:Vector3d,  minArea:Double)
     {
         computeNormal(normal);
         
@@ -75,7 +75,7 @@ public class Face{
             var hedgeMax:HalfEdge? = nil;
             var lenSqrMax = 0.0
             var hedge = he0;
-            do
+            repeat
             {
                 let lenSqr = hedge!.lengthSquared();
                 if (lenSqr > lenSqrMax)
@@ -102,12 +102,12 @@ public class Face{
         }
     }
   
-    public func computeNormal ( normal:Vector3d)
+    open func computeNormal ( _ normal:Vector3d)
     {
         var he1 = he0!.next!;
         var he2 = he1.next!;
         
-        var p0 = he0!.head().pnt;
+        let p0 = he0!.head().pnt;
         var p2 = he1.head().pnt;
         
         var d2x = p2.x - p0.x;
@@ -135,7 +135,7 @@ public class Face{
             
             he1 = he2;
             he2 = he2.next!;
-            numVerts++;
+            numVerts += 1;
         }
         area = normal.norm();
         normal.scale (1.0/area);
@@ -147,23 +147,23 @@ public class Face{
         planeOffset = normal.dot(centroid);
         var numv = 0;
         var he = he0!;
-        do
+        repeat
         {
-            numv++;
+            numv += 1;
             he = he.next!;
         }
         while (he !== he0);
         assert(numv == numVerts,"face \( getVertexString()) numVerts=\(numVerts) should be \(numv)");
     }
     
-    func computeNormalAndCentroid( minArea:Double)
+    func computeNormalAndCentroid( _ minArea:Double)
     {
         computeNormal(normal, minArea: minArea);
         computeCentroid (centroid);
         planeOffset = normal.dot(centroid);
     }
     
-    public static func createTriangle ( v0:Vertex, v1:Vertex, v2:Vertex)->Face
+    open static func createTriangle ( _ v0:Vertex, v1:Vertex, v2:Vertex)->Face
     {
 	   return createTriangle (v0, v1: v1, v2: v2, minArea: 0);
     }
@@ -175,7 +175,7 @@ public class Face{
     * @param v1 second vertex
     * @param v2 third vertex
     */
-    public static func createTriangle (v0:Vertex ,  v1:Vertex,  v2:Vertex, minArea:Double)->Face
+    open static func createTriangle (_ v0:Vertex ,  v1:Vertex,  v2:Vertex, minArea:Double)->Face
     {
         let face = Face();
         let he0 = HalfEdge (v: v0, f: face);
@@ -196,7 +196,7 @@ public class Face{
         return face;
     }
 
-    public static func create (vtxArray:[Vertex], indices:[Int])->Face
+    open static func create (_ vtxArray:[Vertex], indices:[Int])->Face
     {
         let face = Face();
         var hePrev:HalfEdge? = nil;
@@ -228,21 +228,21 @@ public class Face{
     * @param i the half-edge index, in the range 0-2.
     * @return the half-edge
     */
-    public func getEdge(iIn:Int)->HalfEdge{
+    open func getEdge(_ iIn:Int)->HalfEdge{
         var i = iIn
         var he = he0;
         while (i > 0){
-            he = he.next!;
-            i--;
+            he = he?.next!;
+            i -= 1;
         }
         while (i < 0){
-            he = he.prev;
-            i++;
+            he = he?.prev;
+            i += 1;
         }
-        return he;
+        return he!;
     }
 
-    public func getFirstEdge()->HalfEdge{
+    open func getFirstEdge()->HalfEdge{
         return he0
     }
 
@@ -254,13 +254,13 @@ public class Face{
     * @param vh head point
     * @return the half-edge, or nil if none is found.
     */
-    public func findEdge ( vt:Vertex,  vh:Vertex)->HalfEdge?{
+    open func findEdge ( _ vt:Vertex,  vh:Vertex)->HalfEdge?{
         var he = he0;
-        do{
-            if (he.head() === vh && he.tail() === vt){
+        repeat{
+            if (he?.head() === vh && he?.tail() === vt){
                 return he;
             }
-            he = he.next;
+            he = he?.next;
         }while (he !== he0);
 	   return nil;
     }
@@ -272,7 +272,7 @@ public class Face{
     * @param p the point
     * @return distance from the point to the plane
     */
-    public func distanceToPlane (p:Point3d )->Double
+    open func distanceToPlane (_ p:Point3d )->Double
     {
 	   return normal.x*p.x + normal.y*p.y + normal.z*p.z - planeOffset;
     }
@@ -282,45 +282,46 @@ public class Face{
     *
     * @return the planar normal
     */
-    public func getNormal ()->Vector3d
+    open func getNormal ()->Vector3d
     {
 	   return normal;
     }
     
-    public func getCentroid ()->Point3d
+    open func getCentroid ()->Point3d
     {
 	   return centroid;
     }
     
-    public func numVertices()->Int
+    open func numVertices()->Int
     {
 	   return numVerts;
     }
 
-    public func getVertexString ()->String{
+    open func getVertexString ()->String{
         var s:String = "";
         var he = he0;
-        do{
+        repeat{
             if (he === he0){
-                s = "\(he.head().index)";
+                s = "\(he?.head().index)";
             }
             else{
-                s += " \(he.head().index)";
+                s += " \(he?.head().index)";
             }
-            he = he.next!;
+            he = he?.next!;
         }while (he !== he0);
 	   return s
     }
 
-    public func getVertexIndices (inout idxs:[Int]){
+    open func getVertexIndices (_ idxs:inout [Int]){
         var he = he0;
         var i = 0;
-        do{
-            idxs[i++] = he.head().index;
-            he = he.next!;
+        repeat{
+            idxs[i] = (he?.head().index)!;
+            i += 1
+            he = he?.next!;
         }while (he !== he0);
     }
-    func connectHalfEdges (hedgePrev:HalfEdge , hedge:HalfEdge)->Face?{
+    func connectHalfEdges (_ hedgePrev:HalfEdge , hedge:HalfEdge)->Face?{
         var discardedFace:Face? = nil;
     
         if (hedgePrev.oppositeFace() === hedge.oppositeFace())
@@ -370,23 +371,23 @@ public class Face{
         var maxd = 0.0;
         var numv = 0;
         assert(numVerts >= 0, "degenerate face: \(getVertexString())")
-        do
+        repeat
         {
-            var hedgeOpp = hedge.opposite;
-            assert(hedgeOpp != nil, "face \(getVertexString()): unreflected half edge \(hedge.getVertexString())")
+            let hedgeOpp = hedge?.opposite;
+            assert(hedgeOpp != nil, "face \(getVertexString()): unreflected half edge \(hedge?.getVertexString())")
             assert(hedgeOpp?.opposite === hedge, "face \(getVertexString()): opposite half edge \(hedgeOpp!.getVertexString()) has opposite \(hedgeOpp?.opposite!.getVertexString())");
-            assert(hedgeOpp!.head() === hedge.tail() && hedge.head() === hedgeOpp!.tail(),"face \(getVertexString()): half edge \(hedge.getVertexString()) reflected by \(hedgeOpp!.getVertexString())");
+            assert(hedgeOpp!.head() === hedge?.tail() && hedge?.head() === hedgeOpp!.tail(),"face \(getVertexString()): half edge \(hedge?.getVertexString()) reflected by \(hedgeOpp!.getVertexString())");
             let oppFace = hedgeOpp!.face
 //            assert(oppFace != nil , "face \(getVertexString()):no face on half edge \(hedgeOpp!.getVertexString())");
             assert(oppFace.mark != Face.DELETED,"face \(getVertexString()): opposite face \(oppFace.getVertexString()) not on hull")
             
-            let d = abs(distanceToPlane(hedge.head().pnt));
+            let d = abs(distanceToPlane((hedge?.head().pnt)!));
             if (d > maxd)
             {
                 maxd = d;
             }
-            numv++;
-            hedge = hedge.next;
+            numv += 1;
+            hedge = hedge?.next;
         }while (hedge !== he0);
         assert(numv == numVerts,"face \(getVertexString()) numVerts=\(numVerts) should be \(numv)");
     
@@ -394,33 +395,35 @@ public class Face{
     
     
 //
-    public func mergeAdjacentFace ( hedgeAdj:HalfEdge,inout discarded:[Face?])->Int
+    open func mergeAdjacentFace ( _ hedgeAdj:HalfEdge,discarded:inout [Face?])->Int
     {
-        var oppFace = hedgeAdj.oppositeFace()!;
+        let oppFace = hedgeAdj.oppositeFace()!;
         var numDiscarded = 0;
 
-        discarded[numDiscarded++] = oppFace;
+        discarded[numDiscarded] = oppFace;
+        numDiscarded += 1
         oppFace.mark = Face.DELETED;
 
         let hedgeOpp = hedgeAdj.opposite;
     
-        var hedgeAdjPrev = hedgeAdj.prev!;
-        var hedgeAdjNext = hedgeAdj.next!;
-        var hedgeOppPrev = hedgeOpp!.prev!;
-        var hedgeOppNext = hedgeOpp!.next!;
+        var hedgeAdjPrev = hedgeAdj.prev!
+        var hedgeAdjNext = hedgeAdj.next!
+        var hedgeOppPrev = hedgeOpp!.prev!
+        var hedgeOppNext = hedgeOpp!.next!
         while (hedgeAdjPrev.oppositeFace() === oppFace){
-            hedgeAdjPrev = hedgeAdjPrev.prev!;
-            hedgeOppNext = hedgeOppNext.next!;
+            hedgeAdjPrev = hedgeAdjPrev.prev!
+            hedgeOppNext = hedgeOppNext.next!
         }
 
         while (hedgeAdjNext.oppositeFace() === oppFace){
-            hedgeOppPrev = hedgeOppPrev.prev!;
-            hedgeAdjNext = hedgeAdjNext.next!;
+            hedgeOppPrev = hedgeOppPrev.prev!
+            hedgeAdjNext = hedgeAdjNext.next!
         }
     
-        var hedge:HalfEdge;
-        for (hedge = hedgeOppNext; hedge !== hedgeOppPrev.next; hedge=hedge.next!){
+        var hedge = hedgeOppNext
+        while hedge !== hedgeOppPrev.next {
             hedge.face = self;
+            hedge = hedge.next!
         }
     
         if (hedgeAdj === he0){
@@ -432,14 +435,16 @@ public class Face{
     
         discardedFace = connectHalfEdges (hedgeOppPrev, hedge: hedgeAdjNext);
         if (discardedFace != nil){
-            discarded[numDiscarded++] = discardedFace!;
+            discarded[numDiscarded] = discardedFace!;
+            numDiscarded += 1
         }
     
         // handle the half edges at the tail
         discardedFace = connectHalfEdges (hedgeAdjPrev, hedge: hedgeOppNext);
         if (discardedFace != nil)
         {
-            discarded[numDiscarded++] = discardedFace!;
+            discarded[numDiscarded] = discardedFace!;
+            numDiscarded += 1
         }
     
 	   computeNormalAndCentroid ();
@@ -448,7 +453,7 @@ public class Face{
 	   return numDiscarded;
     }
 
-    private func areaSquared (hedge0:HalfEdge, hedge1:HalfEdge )->Double
+    fileprivate func areaSquared (_ hedge0:HalfEdge, hedge1:HalfEdge )->Double
     {
 	   // return the squared area of the triangle defined
 	   // by the half edge hedge0 and the point at the
@@ -473,19 +478,19 @@ public class Face{
 	   return x*x + y*y + z*z;
     }
     
-    public func triangulate ( newFaces:FaceList,  minArea:Double)
+    open func triangulate ( _ newFaces:FaceList,  minArea:Double)
     {
         var hedge:HalfEdge? = nil;
         if (numVertices() < 4){
             return;
         }
-        var v0 = he0.head();
-        var prevFace:Face? = nil;
+        let v0 = he0.head();
+
         hedge = he0.next;
         var oppPrev = hedge!.opposite;
         var face0:Face? = nil;
-    
-        for (hedge = hedge!.next; hedge !== he0.prev; hedge=hedge!.next)
+        hedge = hedge!.next
+        while hedge !== he0.prev
         {
             let face = Face.createTriangle (v0, v1: hedge!.prev!.head(), v2: hedge!.head(), minArea: minArea);
             face.he0.next!.setOpposite (oppPrev!);
@@ -496,6 +501,7 @@ public class Face{
             {
                 face0 = face;
             }
+            hedge=hedge!.next
         }
         hedge = HalfEdge (v: he0.prev!.prev!.head(), f: self);
         hedge!.setOpposite (oppPrev!);
@@ -508,9 +514,11 @@ public class Face{
     
         computeNormalAndCentroid (minArea);
         checkConsistency();
-    
-        for var face=face0; face != nil; face=face!.next {
+
+        var face = face0
+        while face != nil {
             face!.checkConsistency();
+             face = face!.next
         }
     }
 }

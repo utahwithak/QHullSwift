@@ -11,15 +11,15 @@ import Foundation
 /**
 * Maintains a single-linked list of faces for use by QuickHull3D
 */
-public class FaceList
+public final class FaceList
 {
-    private var head:Face? = nil;
-    private var tail:Face? = nil;
+    fileprivate var head:Face? = nil;
+    fileprivate var tail:Face? = nil;
     
     /**
     * Clears this list.
     */
-    public func clear(){
+    func clear(){
         head = nil
         tail = nil;
     }
@@ -27,7 +27,7 @@ public class FaceList
     /**
     * Adds a vertex to the end of this list.
     */
-    public func add (vtx:Face){
+    func add (_ vtx:Face){
         if (head == nil){
             head = vtx;
         }
@@ -38,7 +38,7 @@ public class FaceList
         tail = vtx;
     }
     
-    public func first()->Face?
+    func first()->Face?
     {
 	   return head;
     }
@@ -46,7 +46,7 @@ public class FaceList
     /**
     * Returns true if this list is empty.
     */
-    public func isEmpty()->Bool
+    func isEmpty()->Bool
     {
 	   return head == nil;
     }
