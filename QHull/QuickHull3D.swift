@@ -797,7 +797,6 @@ open class QuickHull3D
             let oppFace = hedge?.oppositeFace()!;
             var merge = false
             var dist1 = 0.0
-            var dist2 = 0.0
     
             if (mergeType == QuickHull3D.NONCONVEX){ // then merge faces if they are definitively non-convex
                 if (oppFaceDistance (hedge!) > -tolerance || oppFaceDistance ((hedge?.opposite!)!) > -tolerance){
