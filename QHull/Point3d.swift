@@ -19,7 +19,7 @@
 */
 
 import Foundation
-
+import SceneKit
 /**
 * A three-element spatial point.
 *
@@ -44,6 +44,10 @@ open class Point3d:Vector3d {
     {
         super.init(v: v)
     }
+
+    public convenience init( v:SCNVector3) {
+        self.init(x: v.x, y: v.y, z: v.z)
+    }
     
     /**
     * Creates a Point3d with the supplied element values.
@@ -55,5 +59,9 @@ open class Point3d:Vector3d {
     public override init ( x:Double,  y:Double,  z:Double)
     {
         super.init(x: x, y: y, z: z)
+    }
+
+    public convenience init(x: CGFloat, y: CGFloat, z: CGFloat) {
+        self.init(x: Double(x), y: Double(y), z: Double(z))
     }
 }
