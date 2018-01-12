@@ -11,7 +11,7 @@ import Foundation
 /**
 * Maintains a double-linked list of vertices for use by QuickHull3D
 */
-open class VertexList
+final class VertexList
 {
     fileprivate var head:Vertex? = nil;
     fileprivate var tail:Vertex? = nil;
@@ -19,7 +19,7 @@ open class VertexList
     /**
     * Clears this list.
     */
-    open func clear()
+    func clear()
     {
         head = nil
         tail = nil;
@@ -28,7 +28,7 @@ open class VertexList
     /**
     * Adds a vertex to the end of this list.
     */
-    open func add(_ vtx:Vertex)
+    func add(_ vtx:Vertex)
     {
         if (head == nil){
             head = vtx;
@@ -44,7 +44,7 @@ open class VertexList
     /**
     * Adds a chain of vertices to the end of this list.
     */
-    open func addAll ( _ vtx:Vertex)
+    func addAll ( _ vtx:Vertex)
     {
         if (head == nil){
             head = vtx;
@@ -63,7 +63,7 @@ open class VertexList
     /**
     * Deletes a vertex from this list.
     */
-    open func delete (_ vtx:Vertex ){
+    func delete (_ vtx:Vertex ){
         if (vtx.prev == nil){
             head = vtx.next;
         }
@@ -81,7 +81,7 @@ open class VertexList
     /**
     * Deletes a chain of vertices from this list.
     */
-    open func delete (_ vtx1:Vertex, vtx2:Vertex){
+    func delete (_ vtx1:Vertex, vtx2:Vertex){
         if (vtx1.prev == nil){
             head = vtx2.next;
         }
@@ -100,7 +100,7 @@ open class VertexList
     * Inserts a vertex into this list before another
     * specificed vertex.
     */
-    open func insertBefore (_ vtx:Vertex ,  next:Vertex)
+    func insertBefore (_ vtx:Vertex ,  next:Vertex)
     {
         vtx.prev = next.prev;
         if (next.prev == nil){
@@ -116,7 +116,7 @@ open class VertexList
     /**
     * Returns the first element in this list.
     */
-    open func first()->Vertex?
+    func first()->Vertex?
     {
 	   return head;
     }
@@ -124,7 +124,7 @@ open class VertexList
     /**
     * Returns true if this list is empty.
     */
-    open func isEmpty()->Bool
+    func isEmpty()->Bool
     {
 	   return head == nil;
     }

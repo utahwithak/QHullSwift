@@ -21,37 +21,32 @@
 import Foundation
 
 
-/**
-* Represents the half-edges that surround each
-* face in a counter-clockwise direction.
-*
-* @author John E. Lloyd, Fall 2004 */
-open class HalfEdge{
+final class HalfEdge {
     /**
     * The vertex associated with the head of this half-edge.
     */
-    var vertex:Vertex;
+    var vertex: Vertex
     
     /**
     * Triangular face associated with this half-edge.
     */
-    var face:Face;
+    var face: Face
     
     /**
     * Next half-edge in the triangle.
     */
-    var next:HalfEdge? = nil;
+    var next: HalfEdge?
     
     /**
     * Previous half-edge in the triangle.
     */
-    var prev:HalfEdge? = nil;
+    var prev: HalfEdge?
     
     /**
     * Half-edge associated with the opposite triangle
     * adjacent to this edge.
     */
-    var opposite:HalfEdge? = nil;
+    var opposite: HalfEdge?
     
     /**
     * Constructs a HalfEdge with head vertex <code>v</code> and
@@ -60,10 +55,9 @@ open class HalfEdge{
     * @param v head vertex
     * @param f left-hand triangular face
     */
-    public init ( v:Vertex,  f:Face)
-    {
-	   vertex = v;
-	   face = f;
+    internal init( v:Vertex, f: Face) {
+	   vertex = v
+	   face = f
     }
 
     
@@ -72,10 +66,10 @@ open class HalfEdge{
     *
     * @param edge opposite half-edge
     */
-    open func setOpposite(_ edge:HalfEdge )
+    func setOpposite(_ edge: HalfEdge )
     {
-	   opposite = edge;
-	   edge.opposite = self;
+	   opposite = edge
+	   edge.opposite = self
     }
     
     /**
@@ -83,9 +77,8 @@ open class HalfEdge{
     *
     * @return head vertex
     */
-    open func head()->Vertex
-    {
-	   return vertex;
+    var head: Vertex {
+	   return vertex
     }
     
     /**
@@ -93,9 +86,8 @@ open class HalfEdge{
     *
     * @return tail vertex
     */
-    open func tail()->Vertex?
-    {
-	   return prev != nil ? prev!.vertex : nil;
+    var tail: Vertex? {
+	   return prev?.vertex
     }
     
     /**
@@ -104,9 +96,8 @@ open class HalfEdge{
     *
     * @return opposite triangular face
     */
-    open func oppositeFace()->Face?
-    {
-	   return opposite != nil ? opposite!.face : nil;
+    var oppositeFace: Face? {
+	   return opposite?.face
     }
     
     /**
@@ -115,12 +106,12 @@ open class HalfEdge{
     *
     * @return identifying string
     */
-    open func getVertexString()->String{
-        if let tail = tail(){
-            return "\(tail.index)-\(head().index)"
+    var vertextDescription: String {
+        if let tail = tail {
+            return "\(tail.index)-\(head.index)"
         }
         else{
-            return "?-\(head().index)";
+            return "?-\(head.index)"
         }
     }
     
@@ -129,13 +120,11 @@ open class HalfEdge{
     *
     * @return half-edge length
     */
-    open func length()->Double
-    {
-        if let tail = tail(){
-            return head().pnt.distance(tail.pnt);
-        }
-        else{
-            return -1;
+    var length: Double {
+        if let tail = tail {
+            return head.pnt.distance(tail.pnt)
+        } else{
+            return -1
         }
     }
     
@@ -144,40 +133,13 @@ open class HalfEdge{
     *
     * @return half-edge length squared
     */
-    open func lengthSquared()->Double
+    func lengthSquared()->Double
     {
-        if let tail = tail(){
-            return head().pnt.distanceSquared(tail.pnt);
-        }
-        else{
-            return -1;
+        if let tail = tail {
+            return head.pnt.distanceSquared(tail.pnt)
+        }  else{
+            return -1
         }
     }
-    
-    
-    // 	/**
-    // 	 * Computes nrml . (del0 X del1), where del0 and del1
-    // 	 * are the direction vectors along this halfEdge, and the
-    // 	 * halfEdge he1.
-    // 	 *
-    // 	 * A product > 0 indicates a left turn WRT the normal
-    // 	 */
-    // 	public double turnProduct (HalfEdge he1, Vector3d nrml)
-    // 	 {
-    // 	   Point3d pnt0 = tail().pnt;
-    // 	   Point3d pnt1 = head().pnt;
-    // 	   Point3d pnt2 = he1.head().pnt;
-    
-    // 	   double del0x = pnt1.x - pnt0.x;
-    // 	   double del0y = pnt1.y - pnt0.y;
-    // 	   double del0z = pnt1.z - pnt0.z;
-    
-    // 	   double del1x = pnt2.x - pnt1.x;
-    // 	   double del1y = pnt2.y - pnt1.y;
-    // 	   double del1z = pnt2.z - pnt1.z;
-    
-    // 	   return (nrml.x*(del0y*del1z - del0z*del1y) + 
-    // 		   nrml.y*(del0z*del1x - del0x*del1z) + 
-    // 		   nrml.z*(del0x*del1y - del0y*del1x));
-    // 	 }
+
 }

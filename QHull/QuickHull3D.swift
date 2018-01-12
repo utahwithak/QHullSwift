@@ -49,25 +49,25 @@ import Foundation
 *      new Point3d (0.0,  0.0,  2.0),
 *      new Point3d (0.1,  0.2,  0.3),
 *      new Point3d (0.0,  2.0,  0.0),
-*    };
-*
-*   QuickHull3D hull = new QuickHull3D();
-*   hull.build (points);
-*
-*   println ("Vertices:");
-*   Point3d[] vertices = hull.getVertices();
-*   for (int i = 0; i < vertices.length; i++)
-*    { Point3d pnt = vertices[i];
-*      println (pnt.x + " " + pnt.y + " " + pnt.z);
 *    }
 *
-*   println ("Faces:");
-*   int[][] faceIndices = hull.getFaces();
-*   for (int i = 0; i < faceIndices.length; i++)
-*    { for (int k = 0; k < faceIndices[i].length; k++)
-*       { print (faceIndices[i][k] + " ");
+*   QuickHull3D hull = new QuickHull3D()
+*   hull.build (points)
+*
+*   println ("Vertices:")
+*   Point3d[] vertices = hull.getVertices()
+*   for (int i = 0 i < vertices.length i++)
+*    { Point3d pnt = vertices[i]
+*      println (pnt.x + " " + pnt.y + " " + pnt.z)
+*    }
+*
+*   println ("Faces:")
+*   int[][] faceIndices = hull.getFaces()
+*   for (int i = 0 i < faceIndices.length i++)
+*    { for (int k = 0 k < faceIndices[i].length k++)
+*       { print (faceIndices[i][k] + " ")
 *       }
-*      println ("");
+*      println ("")
 *    }
 * </pre>
 * As a convenience, there are also {@link #build(double[]) build}
@@ -116,42 +116,42 @@ import Foundation
 * IllegalArgumentException will be thrown.
 *
 * @author John E. Lloyd, Fall 2004 */
-open class QuickHull3D
+public final class QuickHull3D
 {
     /**
      Specifies that (on output) vertex indices for a face should be
      listed in clockwise order.
     */
-    open static let CLOCKWISE = 0x1;
+    static let CLOCKWISE = 0x1
     
     /**
      Specifies that (on output) the vertex indices for a face should be
      numbered starting from 1.
     */
-    open static let INDEXED_FROM_ONE = 0x2;
+    static let INDEXED_FROM_ONE = 0x2
     
     /**
      Specifies that (on output) the vertex indices for a face should be
      numbered starting from 0.
     */
-    open static let INDEXED_FROM_ZERO = 0x4;
+    static let INDEXED_FROM_ZERO = 0x4
     
     /**
      Specifies that (on output) the vertex indices for a face should be
      numbered with respect to the original input points.
     */
-    open static let POINT_RELATIVE = 0x8;
+    static let POINT_RELATIVE = 0x8
     
     /**
      Specifies that the distance tolerance should be
      computed automatically from the input point data.
     */
-    open static let AUTOMATIC_TOLERANCE = -1.0
+    static let AUTOMATIC_TOLERANCE = -1.0
     
     
-    fileprivate static let NONCONVEX_WRT_LARGER_FACE = 1;
-    fileprivate static let NONCONVEX = 2;
-    var findIndex = -1;
+    fileprivate static let NONCONVEX_WRT_LARGER_FACE = 1
+    fileprivate static let NONCONVEX = 2
+    var findIndex = -1
 
     var charLength = 0.0
     var pointBuffer = [Vertex]()
@@ -162,20 +162,23 @@ open class QuickHull3D
     var minVtxs = [Vertex](repeating: Vertex(), count: 3)
 
     var horizon = [HalfEdge]()
-    var faces = [Face]()
+    public private(set) var faces = [Face]()
 
     
     
-    fileprivate let newFaces =  FaceList();
-    fileprivate let unclaimed = VertexList();
-    fileprivate let claimed =  VertexList();
+    fileprivate let newFaces =  FaceList()
+    fileprivate let unclaimed = VertexList()
+    fileprivate let claimed =  VertexList()
     
-    var numVertices = 0;
-    var numFaces = 0;
-    var numPoints = 0;
+    var vertCount = 0
+
+    var faceCount: Int {
+        return faces.count
+    }
+    var numPoints = 0
     
-    var debug = false;
-    var explicitTolerance = QuickHull3D.AUTOMATIC_TOLERANCE;
+    var debug = false
+    var explicitTolerance = QuickHull3D.AUTOMATIC_TOLERANCE
     var tolerance = 0.0
 
     
@@ -184,106 +187,63 @@ open class QuickHull3D
     */
     public init() {  }
 
-    
-    
-    
-    
-    /**
-    * Returns the vertex points in this hull.
-    *
-    * @return array of vertex points
-    * @see QuickHull3D#getVertices(double[])
-    * @see QuickHull3D#getFaces()
-    */
-    open func getVertices()-> [Point3d]
-    {
+    public var vertices: [Point3d] {
         var vtxs =  [Point3d]()
-        for i in 0..<numVertices{
-            vtxs.append(pointBuffer[vertexPointIndices[i]].pnt);
+        for i in 0..<vertCount{
+            vtxs.append(pointBuffer[vertexPointIndices[i]].pnt)
         }
-        return vtxs;
+        return vtxs
     }
 
-    
-    
-    /**
-    * Returns the faces associated with this hull.
-    *
-    * <p>Each face is represented by an integer array which gives the
-    * indices of the vertices. These indices are numbered
-    * relative to the
-    * hull vertices, are zero-based,
-    * and are arranged counter-clockwise. More control
-    * over the index format can be obtained using
-    * {@link #getFaces(int) getFaces(indexFlags)}.
-    *
-    * @return array of integer arrays, giving the vertex
-    * indices for each face.
-    * @see QuickHull3D#getVertices()
-    * @see QuickHull3D#getFaces(int)
-    */
-    open func getFaces()->[[Int]]
-    {
-        return getFaces(0);
+    public var faceIndexes:[[Int]] {
+        return faces(withOptions: [])
     }
     
-    
-    /**
-    * Returns the faces associated with this hull.
-    *
-    * <p>Each face is represented by an integer array which gives the
-    * indices of the vertices. By default, these indices are numbered with
-    * respect to the hull vertices (as opposed to the input points), are
-    * zero-based, and are arranged counter-clockwise. However, this
-    * can be changed by setting {@link #POINT_RELATIVE
-    * POINT_RELATIVE}, {@link #INDEXED_FROM_ONE INDEXED_FROM_ONE}, or
-    * {@link #CLOCKWISE CLOCKWISE} in the indexFlags parameter.
-    *
-    * @param indexFlags specifies index characteristics (0 results
-    * in the default)
-    * @return array of integer arrays, giving the vertex
-    * indices for each face.
-    * @see QuickHull3D#getVertices()
-    */
-    open func getFaces (_ indexFlags:Int)->[[Int]]{
-        var allFaces =  [[Int]]()
-        var k = 0;
-        for face in faces{
-        
-            allFaces.append([Int](repeating: 0,count: face.numVertices()));
-            getFaceIndices(&allFaces[k], face: face, flags: indexFlags);
-            k += 1;
+    struct FaceOption: OptionSet {
+        var rawValue: Int
+        init(rawValue: Int) {
+            self.rawValue = rawValue
         }
-        return allFaces;
+        static let clockwise = FaceOption(rawValue: 1 << 0)
+        static let indexedFromOne = FaceOption(rawValue: 1 << 1)
+        static let pointRelative = FaceOption(rawValue: 1 << 2)
+    }
+
+    func faces(withOptions options: FaceOption = [])->[[Int]]{
+        return faces.map({ faceIndices(for: $0, with: options)})
     }
     
-    open func normalOfFace(_ index:Int)->Vector3d{
-        return faces[index].getNormal()
+    func normalOfFace(at index:Int)->Vector3d{
+        return faces[index].normal
+    }
+
+    func normalOf(face: Face) -> Vector3d {
+        return face.normal
     }
     
-    func getFaceIndices (_ indices:inout [Int],  face:Face,  flags:Int)
-    {
-        let ccw = ((flags & QuickHull3D.CLOCKWISE) == 0);
-        let indexedFromOne = ((flags & QuickHull3D.INDEXED_FROM_ONE) != 0);
-        let pointRelative = ((flags & QuickHull3D.POINT_RELATIVE) != 0);
+    func faceIndices(for face:Face, with flags: FaceOption) -> [Int] {
+        let ccw = !flags.contains(.clockwise )
+        let indexedFromOne = flags.contains(.indexedFromOne)
+        let pointRelative = flags.contains(.pointRelative)
         
-        var hedge = face.he0;
-        var k = 0;
+        var hedge = face.he0
+        var indices = [Int]()
         repeat
         {
-            var idx = hedge!.head().index;
+            var idx = hedge!.head.index
             if (pointRelative)
             {
-                idx = vertexPointIndices[idx];
+                idx = vertexPointIndices[idx]
             }
             if (indexedFromOne)
             {
-                idx += 1;
+                idx += 1
             }
-            indices[k] = idx;
-            k += 1
-            hedge = (ccw ? hedge?.next! : hedge?.prev!);
-        }while (hedge !== face.he0);
+            indices.append(idx)
+
+            hedge = (ccw ? hedge?.next! : hedge?.prev!)
+        } while (hedge !== face.he0)
+        return indices
     }
     
     /**
@@ -295,51 +255,28 @@ open class QuickHull3D
     * than four, or the points appear to be coincident, colinear, or
     * coplanar.
     */
-    public init(points:[Point3d])
-    {
-	   build(points, nump: points.count);
-    }
-    
-    
-    /**
-    * Returns true if debugging is enabled.
-    *
-    * @return true is debugging is enabled
-    * @see QuickHull3D#setDebug
-    */
-    open func getDebug()->Bool
-    {
-	   return debug;
-    }
-    
-    /**
-    * Enables the printing of debugging diagnostics.
-    *
-    * @param enable if true, enables debugging
-    */
-    open func setDebug ( _ enable:Bool)
-    { 
-        debug = enable;
+    public init(points:[Point3d]) {
+	   build(points)
     }
 
     /**
     * Precision of a double.
     */
-    static let DOUBLE_PREC = 2.2204460492503131e-16;
+    static let DOUBLE_PREC = 2.2204460492503131e-16
     
 
     
     
     func addPointToFace ( _ vtx:Vertex,  face:Face)
     {
-        vtx.face = face;
+        vtx.face = face
         if (face.outside == nil){
-            claimed.add (vtx);
+            claimed.add (vtx)
         }
         else{
-            claimed.insertBefore (vtx, next: face.outside!);
+            claimed.insertBefore (vtx, next: face.outside!)
         }
-        face.outside = vtx;
+        face.outside = vtx
     }
     
     func removePointFromFace (_ vtx:Vertex,  face:Face)
@@ -347,51 +284,39 @@ open class QuickHull3D
         if (vtx === face.outside)
         {
             if (vtx.next != nil && vtx.next!.face === face){
-                face.outside = vtx.next;
+                face.outside = vtx.next
             }
             else{
-                face.outside = nil;
+                face.outside = nil
             }
         }
-        claimed.delete (vtx);
+        claimed.delete (vtx)
     }
     
     fileprivate func removeAllPointsFromFace (_ face:Face)->Vertex?
     {
         if (face.outside != nil){
-            var end = face.outside!;
+            var end = face.outside!
             while (end.next != nil && end.next!.face === face){
-                end = end.next!;
+                end = end.next!
             }
-            claimed.delete (face.outside!, vtx2: end);
-            end.next = nil;
-            return face.outside;
+            claimed.delete (face.outside!, vtx2: end)
+            end.next = nil
+            return face.outside
         }
         else{
-            return nil;
+            return nil
         }
     }
     
-    open func build (_ points:[Point3d])
+    public func build (_ points:[Point3d])
     {
-        build(points,nump:points.count)
-    }
-    /**
-    * Constructs the convex hull of a set of points.
-    *
-    * @param points input points
-    * @param nump number of input points
-    * @throws IllegalArgumentException the number of input points is less
-    * than four or greater then the length of <code>points</code>, or the
-    * points appear to be coincident, colinear, or coplanar.
-    */
-    open func build (_ points:[Point3d],  nump:Int)
-    {
-        assert(nump >= 4,"Less than four input points specified");
-        assert(points.count >= nump,  "Point array too small for specified number of points");
-        initBuffers (nump);
-        setPoints(points, nump: nump);
-        buildHull();
+        let nump = points.count
+        assert(nump >= 4,"Less than four input points specified")
+        assert(points.count >= nump,  "Point array too small for specified number of points")
+        initBuffers (nump)
+        setPoints(points, nump: nump)
+        buildHull()
     }
     
     func initBuffers ( _ nump:Int){
@@ -400,104 +325,103 @@ open class QuickHull3D
             vertexPointIndices = [Int](repeating: 0,count: nump)
             for i in 0..<pointBuffer.count
             {
-                newBuffer[i] = pointBuffer[i];
+                newBuffer[i] = pointBuffer[i]
             }
             for i in pointBuffer.count..<nump
             {
-                newBuffer[i] = Vertex();
+                newBuffer[i] = Vertex()
             }
-            pointBuffer = newBuffer;
+            pointBuffer = newBuffer
         }
         faces.removeAll(keepingCapacity: true)
-        claimed.clear();
-        numFaces = 0;
-        numPoints = nump;
+        claimed.clear()
+        numPoints = nump
     }
 
     func setPoints (_ pnts:[Point3d],  nump:Int){
         for i in 0..<nump{
-            let vtx = pointBuffer[i];
-            vtx.pnt.set (pnts[i]);
-            vtx.index = i;
+            let vtx = pointBuffer[i]
+            vtx.pnt.set (pnts[i])
+            vtx.index = i
         }
     }
     
     func buildHull(){
-        var cnt = 0;
+        var cnt = 0
     
-        computeMaxAndMin();
-        createInitialSimplex ();
+        computeMaxAndMin()
+        createInitialSimplex ()
         while let eyeVtx = nextPointToAdd() {
-            addPointToHull (eyeVtx);
-            cnt += 1;
+            addPointToHull (eyeVtx)
+            cnt += 1
             if (debug)
             {
-                print("iteration \(cnt) done");
+                print("iteration \(cnt) done")
             }
         }
-        reindexFacesAndVertices();
+        reindexFacesAndVertices()
         if (debug)
         {
-            print("hull done");
+            print("hull done")
         }
     }
     
     
     func computeMaxAndMin (){
-        let max = Vector3d();
-        let min = Vector3d();
+        let max = Vector3d()
+        let min = Vector3d()
     
         for i in 0..<3{
-            minVtxs[i] = pointBuffer[0];
+            minVtxs[i] = pointBuffer[0]
             maxVtxs[i] = minVtxs[i]
         }
-        max.set (pointBuffer[0].pnt);
-        min.set (pointBuffer[0].pnt);
+        max.set (pointBuffer[0].pnt)
+        min.set (pointBuffer[0].pnt)
     
         for i in 1..<numPoints
         {
-            let pnt = pointBuffer[i].pnt;
+            let pnt = pointBuffer[i].pnt
             if (pnt.x > max.x)
             {
-                max.x = pnt.x;
-                maxVtxs[0] = pointBuffer[i];
+                max.x = pnt.x
+                maxVtxs[0] = pointBuffer[i]
             }
             else if (pnt.x < min.x)
             {
-                min.x = pnt.x;
-                minVtxs[0] = pointBuffer[i];
+                min.x = pnt.x
+                minVtxs[0] = pointBuffer[i]
             }
             if (pnt.y > max.y)
             {
-                max.y = pnt.y;
-                maxVtxs[1] = pointBuffer[i];
+                max.y = pnt.y
+                maxVtxs[1] = pointBuffer[i]
             }
             else if (pnt.y < min.y)
             {
-                min.y = pnt.y;
-                minVtxs[1] = pointBuffer[i];
+                min.y = pnt.y
+                minVtxs[1] = pointBuffer[i]
             }
             if (pnt.z > max.z)
             {
-                max.z = pnt.z;
-                maxVtxs[2] = pointBuffer[i];
+                max.z = pnt.z
+                maxVtxs[2] = pointBuffer[i]
             }
             else if (pnt.z < min.z)
             {
-                min.z = pnt.z;
-                minVtxs[2] = pointBuffer[i];
+                min.z = pnt.z
+                minVtxs[2] = pointBuffer[i]
             }
         }
     
         // this epsilon formula comes from QuickHull, and I'm
         // not about to quibble.
-        charLength = Swift.max(max.x-min.x, max.y-min.y);
-        charLength = Swift.max(max.z-min.z, charLength);
+        charLength = Swift.max(max.x-min.x, max.y-min.y)
+        charLength = Swift.max(max.z-min.z, charLength)
         if (explicitTolerance == QuickHull3D.AUTOMATIC_TOLERANCE){
-            tolerance = 3 * QuickHull3D.DOUBLE_PREC * (Swift.max(abs(max.x),abs(min.x)) + Swift.max(abs(max.y),abs(min.y)) + Swift.max( abs(max.z),abs(min.z)));
+            tolerance = 3 * QuickHull3D.DOUBLE_PREC * (Swift.max(abs(max.x),abs(min.x)) + Swift.max(abs(max.y),abs(min.y)) + Swift.max( abs(max.z),abs(min.z)))
         }
 	   else{
-            tolerance = explicitTolerance;
+            tolerance = explicitTolerance
         }
     }
 
@@ -507,128 +431,128 @@ open class QuickHull3D
     * Creates the initial simplex from which the hull will be built.
     */
     func createInitialSimplex(){
-	   var max = 0.0;
-	   var imax = 0;
+	   var max = 0.0
+	   var imax = 0
     
         for i in 0..<3{
-            let diff = maxVtxs[i].pnt.get(i)-minVtxs[i].pnt.get(i);
+            let diff = maxVtxs[i].pnt.get(i)-minVtxs[i].pnt.get(i)
             if (diff > max)
             {
-                max = diff;
-                imax = i;
+                max = diff
+                imax = i
             }
         }
         assert(max > tolerance, "Input points appear to be coincident")
 
-        var vtx =  [Vertex](repeating: Vertex(), count: 4);
+        var vtx =  [Vertex](repeating: Vertex(), count: 4)
         // set first two vertices to be those with the greatest
         // one dimensional separation
-        vtx[0] = maxVtxs[imax];
-        vtx[1] = minVtxs[imax];
+        vtx[0] = maxVtxs[imax]
+        vtx[1] = minVtxs[imax]
     
         // set third vertex to be the vertex farthest from
         // the line between vtx0 and vtx1
-        let u01 = Vector3d();
-        let diff02 = Vector3d();
-        let nrml = Vector3d();
-        let xprod = Vector3d();
+        let u01 = Vector3d()
+        let diff02 = Vector3d()
+        let nrml = Vector3d()
+        let xprod = Vector3d()
         
-        var maxSqr = 0.0;
-        u01.sub(vtx[1].pnt, v2: vtx[0].pnt);
-        u01.normalize();
+        var maxSqr = 0.0
+        u01.sub(vtx[1].pnt, v2: vtx[0].pnt)
+        u01.normalize()
         for  i in 0..<numPoints{
-            diff02.sub(pointBuffer[i].pnt, v2: vtx[0].pnt);
-            xprod.cross(u01, v2: diff02);
-            let lenSqr = xprod.normSquared();
+            diff02.sub(pointBuffer[i].pnt, v2: vtx[0].pnt)
+            xprod.cross(u01, v2: diff02)
+            let lenSqr = xprod.normSquared()
             if (lenSqr > maxSqr && pointBuffer[i] !== vtx[0] && pointBuffer[i] !== vtx[1])
             {
-                maxSqr = lenSqr;
-                vtx[2] = pointBuffer[i];
-                nrml.set (xprod);
+                maxSqr = lenSqr
+                vtx[2] = pointBuffer[i]
+                nrml.set (xprod)
             }
         }
-        assert(sqrt(maxSqr) > 100 * tolerance, "Input points appear to be colinear");
+        assert(sqrt(maxSqr) > 100 * tolerance, "Input points appear to be colinear")
     
-        nrml.normalize();
+        nrml.normalize()
     
     
-        var maxDist = 0.0;
-        let d0 = vtx[2].pnt.dot (nrml);
+        var maxDist = 0.0
+        let d0 = vtx[2].pnt.dot (nrml)
         
         for i in 0..<numPoints{
-            let dist = abs (pointBuffer[i].pnt.dot(nrml) - d0);
+            let dist = abs (pointBuffer[i].pnt.dot(nrml) - d0)
             if (dist > maxDist && pointBuffer[i] !== vtx[0] && pointBuffer[i] !== vtx[1] && pointBuffer[i] !== vtx[2]){
-                maxDist = dist;
-                vtx[3] = pointBuffer[i];
+                maxDist = dist
+                vtx[3] = pointBuffer[i]
             }
         }
         
-        assert(sqrt(maxDist) > 100 * tolerance, "Input points appear to be colinear");
+        assert(sqrt(maxDist) > 100 * tolerance, "Input points appear to be colinear")
 
     
         if (debug){
-            print("initial vertices:");
-            print("\(vtx[0].index): \(vtx[0].pnt)");
-            print("\(vtx[1].index): \(vtx[1].pnt)");
-            print("\(vtx[2].index): \(vtx[2].pnt)");
-            print("\(vtx[3].index): \(vtx[3].pnt)");
+            print("initial vertices:")
+            print("\(vtx[0].index): \(vtx[0].pnt)")
+            print("\(vtx[1].index): \(vtx[1].pnt)")
+            print("\(vtx[2].index): \(vtx[2].pnt)")
+            print("\(vtx[3].index): \(vtx[3].pnt)")
         }
     
-        var tris = [Face](repeating: Face(), count: 4);
+        var tris = [Face](repeating: Face(), count: 4)
     
         if (vtx[3].pnt.dot (nrml) - d0 < 0)
         {
-            tris[0] = Face.createTriangle (vtx[0], v1: vtx[1], v2: vtx[2]);
-            tris[1] = Face.createTriangle (vtx[3], v1: vtx[1], v2: vtx[0]);
-            tris[2] = Face.createTriangle (vtx[3], v1: vtx[2], v2: vtx[1]);
-            tris[3] = Face.createTriangle (vtx[3], v1: vtx[0], v2: vtx[2]);
+            tris[0] = Face.createTriangle (vtx[0], v1: vtx[1], v2: vtx[2])
+            tris[1] = Face.createTriangle (vtx[3], v1: vtx[1], v2: vtx[0])
+            tris[2] = Face.createTriangle (vtx[3], v1: vtx[2], v2: vtx[1])
+            tris[3] = Face.createTriangle (vtx[3], v1: vtx[0], v2: vtx[2])
         
             for i in 0..<3{
-                let k = (i+1)%3;
-                tris[i+1].getEdge(1).setOpposite (tris[k+1].getEdge(0));
-                tris[i+1].getEdge(2).setOpposite (tris[0].getEdge(k));
+                let k = (i+1)%3
+                tris[i+1].getEdge(1).setOpposite (tris[k+1].getEdge(0))
+                tris[i+1].getEdge(2).setOpposite (tris[0].getEdge(k))
             }
         }
         else{
-            tris[0] = Face.createTriangle (vtx[0], v1: vtx[2], v2: vtx[1]);
-            tris[1] = Face.createTriangle (vtx[3], v1: vtx[0], v2: vtx[1]);
-            tris[2] = Face.createTriangle (vtx[3], v1: vtx[1], v2: vtx[2]);
-            tris[3] = Face.createTriangle (vtx[3], v1: vtx[2], v2: vtx[0]);
+            tris[0] = Face.createTriangle (vtx[0], v1: vtx[2], v2: vtx[1])
+            tris[1] = Face.createTriangle (vtx[3], v1: vtx[0], v2: vtx[1])
+            tris[2] = Face.createTriangle (vtx[3], v1: vtx[1], v2: vtx[2])
+            tris[3] = Face.createTriangle (vtx[3], v1: vtx[2], v2: vtx[0])
     
             for i in 0..<3{
-                let k = (i+1)%3;
-                tris[i+1].getEdge(0).setOpposite (tris[k+1].getEdge(1));
-                tris[i+1].getEdge(2).setOpposite (tris[0].getEdge((3-i)%3));
+                let k = (i+1)%3
+                tris[i+1].getEdge(0).setOpposite (tris[k+1].getEdge(1))
+                tris[i+1].getEdge(2).setOpposite (tris[0].getEdge((3-i)%3))
             }
         }
     
     
         for i in 0..<4{
-            faces.append(tris[i]);
+            faces.append(tris[i])
         }
     
         for i in 0..<numPoints{
-            let v = pointBuffer[i];
+            let v = pointBuffer[i]
     
             if (v === vtx[0] || v === vtx[1] || v === vtx[2] || v === vtx[3])
             {
-                continue;
+                continue
             }
     
-            maxDist = tolerance;
-            var maxFace:Face? = nil;
+            maxDist = tolerance
+            var maxFace:Face? = nil
             for k in 0..<4{
-                let dist = tris[k].distanceToPlane (v.pnt);
+                let dist = tris[k].distanceToPlane (v.pnt)
                 if (dist > maxDist)
                 {
-                    maxFace = tris[k];
-                    maxDist = dist;
+                    maxFace = tris[k]
+                    maxDist = dist
                 }
             }
             
             if (maxFace != nil)
             {
-                addPointToFace (v, face: maxFace!);
+                addPointToFace (v, face: maxFace!)
             }
         }
     }
@@ -637,250 +561,242 @@ open class QuickHull3D
     func nextPointToAdd()->Vertex?{
         if (!claimed.isEmpty())
         {
-            let eyeFace = claimed.first()!.face;
-            var eyeVtx:Vertex? = nil;
-            var maxDist = 0.0;
+            let eyeFace = claimed.first()!.face
+            var eyeVtx:Vertex? = nil
+            var maxDist = 0.0
             var vtx = eyeFace!.outside
             while vtx != nil && vtx!.face === eyeFace {
-                let dist = eyeFace!.distanceToPlane(vtx!.pnt);
+                let dist = eyeFace!.distanceToPlane(vtx!.pnt)
                 if (dist > maxDist)
                 {
-                    maxDist = dist;
-                    eyeVtx = vtx;
+                    maxDist = dist
+                    eyeVtx = vtx
                 }
                 vtx = vtx!.next
             }
-            return eyeVtx;
+            return eyeVtx
         }
         else
         {
-            return nil;
+            return nil
         }
     }
     func addPointToHull(_ eyeVtx:Vertex ){
-        horizon.removeAll(keepingCapacity: true);
-        unclaimed.clear();
+        horizon.removeAll(keepingCapacity: true)
+        unclaimed.clear()
     
         if (debug)
         {
-            print("Adding point:\(eyeVtx.index)");
-            print(" which is \(eyeVtx.face!.distanceToPlane(eyeVtx.pnt)) above face \(eyeVtx.face!.getVertexString())");
+            print("Adding point:\(eyeVtx.index)")
+            print(" which is \(eyeVtx.face!.distanceToPlane(eyeVtx.pnt)) above face \(eyeVtx.face!.getVertexString())")
         }
-        removePointFromFace (eyeVtx, face: eyeVtx.face!);
-        calculateHorizon (eyeVtx.pnt, edge: nil, face: eyeVtx.face!, horizon: &horizon);
-        newFaces.clear();
-        addNewFaces (newFaces, eyeVtx: eyeVtx, horizon: horizon);
+        removePointFromFace (eyeVtx, face: eyeVtx.face!)
+        calculateHorizon (eyeVtx.pnt, edge: nil, face: eyeVtx.face!, horizon: &horizon)
+        newFaces.clear()
+        addNewFaces (newFaces, eyeVtx: eyeVtx, horizon: horizon)
     
         // first merge pass ... merge faces which are non-convex
         // as determined by the larger face
         var face = newFaces.first()
-        while face != nil {
-            if (face!.mark == Face.VISIBLE){
-                while (doAdjacentMerge(face!, mergeType: QuickHull3D.NONCONVEX_WRT_LARGER_FACE))
-                {}
+        while let curFace = face {
+            if curFace.mark == .visible {
+                while (doAdjacentMerge(curFace, mergeType: QuickHull3D.NONCONVEX_WRT_LARGER_FACE)){}
             }
-            face = face?.next
+            face = curFace.next
         }
         // second merge pass ... merge faces which are non-convex
         // wrt either face
         face = newFaces.first()
-        while face != nil {
-            if (face!.mark == Face.NON_CONVEX)
-            {
-                face!.mark = Face.VISIBLE;
+        while let curFace = face {
+            if curFace.mark == .nonConvex {
+                curFace.mark = .visible
                 while (doAdjacentMerge(face!, mergeType: QuickHull3D.NONCONVEX)){}
-    
             }
-            face = face?.next
+            face = curFace.next
         }
-        resolveUnclaimedPoints(newFaces);
+        resolveUnclaimedPoints(newFaces)
     }
 
     
     func reindexFacesAndVertices()
     {
         for i in 0..<numPoints{
-            pointBuffer[i].index = -1;
+            pointBuffer[i].index = -1
         }
+
         // remove inactive faces and mark active vertices
-        numFaces = 0;
         var newFaces = [Face]()
-        for face in faces{
-            if (face.mark == Face.VISIBLE){
-                markFaceVertices (face, mark: 0);
-                numFaces += 1;
-                newFaces.append(face)
-            }
+        for face in faces where face.mark == .visible {
+            markFaceVertices(face, mark: 0)
+            newFaces.append(face)
         }
         faces = newFaces
         
         // reindex vertices
-        numVertices = 0;
+        vertCount = 0
         for i in 0..<numPoints{
-            let vtx = pointBuffer[i];
+            let vtx = pointBuffer[i]
             if (vtx.index == 0)
             {
-                vertexPointIndices[numVertices] = i;
-                vtx.index = numVertices;
-                numVertices += 1
+                vertexPointIndices[vertCount] = i
+                vtx.index = vertCount
+                vertCount += 1
             }
         }
     }
     
     func calculateHorizon (  _ eyePnt:Point3d,  edge edgeIn:HalfEdge?,  face:Face,horizon:inout [HalfEdge]){
-        //     oldFaces.add (face);
+        //     oldFaces.add (face)
         var edge0 = edgeIn
-        deleteFacePoints (face, absorbingFace: nil);
-        face.mark = Face.DELETED;
+        deleteFacePoints (face, absorbingFace: nil)
+        face.mark = .deleted
         if (debug){
-            print("visiting face \(face.getVertexString())");
+            print("visiting face \(face.getVertexString())")
         }
-        var edge:HalfEdge ;
+        var edge:HalfEdge
         if (edge0 == nil)
         {
-            edge0 = face.getEdge(0);
-            edge = edge0!;
+            edge0 = face.getEdge(0)
+            edge = edge0!
         }
         else
         {
-            edge = edge0!.next!;
+            edge = edge0!.next!
         }
         repeat
         {
-            let oppFace = edge.oppositeFace()!;
-            if (oppFace.mark == Face.VISIBLE)
-            {
+            let oppFace = edge.oppositeFace!
+            if oppFace.mark == .visible {
                 if (oppFace.distanceToPlane (eyePnt) > tolerance){
         
-                    calculateHorizon(eyePnt, edge: edge.opposite, face: oppFace, horizon: &horizon);
+                    calculateHorizon(eyePnt, edge: edge.opposite, face: oppFace, horizon: &horizon)
                 }
                 else
                 {
-                    horizon.append(edge);
+                    horizon.append(edge)
                     if (debug){
-                        print("  adding horizon edge \(edge.getVertexString())");
+                        print("  adding horizon edge \(edge.vertextDescription)")
                     }
                 }
             }
-            edge = edge.next!;
-        }while (edge !== edge0);
+            edge = edge.next!
+        }while (edge !== edge0)
     }
     func addNewFaces(_ newFaces:FaceList,  eyeVtx:Vertex, horizon:[HalfEdge]){
-        newFaces.clear();
+        newFaces.clear()
     
-        var hedgeSidePrev:HalfEdge? = nil;
-        var hedgeSideBegin:HalfEdge? = nil;
+        var hedgeSidePrev:HalfEdge? = nil
+        var hedgeSideBegin:HalfEdge? = nil
     
         for horizonHe in horizon{
-            let hedgeSide = addAdjoiningFace (eyeVtx, he: horizonHe);
+            let hedgeSide = addAdjoiningFace (eyeVtx, he: horizonHe)
             if (debug){
-                print("new face: \( hedgeSide.face.getVertexString())");
+                print("new face: \( hedgeSide.face.getVertexString())")
             }
             if (hedgeSidePrev != nil){
-                hedgeSide.next!.setOpposite (hedgeSidePrev!);
+                hedgeSide.next!.setOpposite (hedgeSidePrev!)
             }
             else{
-                hedgeSideBegin = hedgeSide;
+                hedgeSideBegin = hedgeSide
             }
-            newFaces.add(hedgeSide.face);
-            hedgeSidePrev = hedgeSide;
+            newFaces.add(hedgeSide.face)
+            hedgeSidePrev = hedgeSide
         }
-        hedgeSideBegin!.next!.setOpposite (hedgeSidePrev!);
+        hedgeSideBegin!.next!.setOpposite (hedgeSidePrev!)
     }
     
     
     func doAdjacentMerge ( _ face:Face,  mergeType:Int)->Bool{
-        var hedge = face.he0;
-        var convex = true;
+        var hedge = face.he0
+        var convex = true
         repeat
         {
-            let oppFace = hedge?.oppositeFace()!;
+            let oppFace = hedge?.oppositeFace!
             var merge = false
             var dist1 = 0.0
     
             if (mergeType == QuickHull3D.NONCONVEX){ // then merge faces if they are definitively non-convex
                 if (oppFaceDistance (hedge!) > -tolerance || oppFaceDistance ((hedge?.opposite!)!) > -tolerance){
-                    merge = true;
+                    merge = true
                 }
             }
             else // mergeType == NONCONVEX_WRT_LARGER_FACE
             {
                 // merge faces if they are parallel or non-convex
-                // wrt to the larger face; otherwise, just mark
+                // wrt to the larger face otherwise, just mark
                 // the face non-convex for the second pass.
                 if (face.area > (oppFace?.area)!){
                     dist1 = oppFaceDistance (hedge!)
                     if ( dist1 > -tolerance){
-                        merge = true;
+                        merge = true
                     }
                     else if (oppFaceDistance ((hedge?.opposite!)!) > -tolerance){
-                        convex = false;
+                        convex = false
                     }
                 }
                 else{
                     if (oppFaceDistance ((hedge?.opposite!)!) > -tolerance){
-                        merge = true;
+                        merge = true
                     }
                     else if (oppFaceDistance (hedge!) > -tolerance){
-                        convex = false;
+                        convex = false
                     }
                 }
             }
     
             if (merge){
                 if (debug){
-                    print("  merging \(face.getVertexString()) and \( oppFace?.getVertexString())");
+                    print("  merging \(face.getVertexString()) and \( oppFace?.getVertexString())")
                 }
     
-                let numd = face.mergeAdjacentFace (hedge!, discarded: &discardedFaces);
+                let numd = face.mergeAdjacentFace (hedge!, discarded: &discardedFaces)
                 for  i in 0..<numd{
-                    deleteFacePoints (discardedFaces[i]!, absorbingFace: face);
+                    deleteFacePoints (discardedFaces[i]!, absorbingFace: face)
                 }
                 if (debug){
-                    print("  result:\(face.getVertexString())");
+                    print("  result:\(face.getVertexString())")
                 }
-                return true;
+                return true
             }
-            hedge = hedge?.next;
-        }while (hedge !== face.he0);
-        if (!convex)
-        {
-            face.mark = Face.NON_CONVEX;
+            hedge = hedge?.next
+        } while (hedge !== face.he0)
+        if !convex {
+            face.mark = .nonConvex
         }
-        return false;
+        return false
     }
 
     func resolveUnclaimedPoints(_ newFaces:FaceList){
-        var vtxNext = unclaimed.first();
+        var vtxNext = unclaimed.first()
         var vtx = vtxNext
         while vtx != nil {
-            vtxNext = vtx!.next;
+            vtxNext = vtx!.next
             
-            var maxDist = tolerance;
-            var maxFace:Face? = nil;
+            var maxDist = tolerance
+            var maxFace: Face? = nil
             var newFace = newFaces.first()
-            while newFace != nil {
-                if (newFace!.mark == Face.VISIBLE){
-                    let dist = newFace!.distanceToPlane(vtx!.pnt);
+            while let curFace = newFace {
+                if curFace.mark == .visible {
+                    let dist = curFace.distanceToPlane(vtx!.pnt)
                     if (dist > maxDist){
-                        maxDist = dist;
-                        maxFace = newFace;
+                        maxDist = dist
+                        maxFace = newFace
                     }
                     if (maxDist > 1000*tolerance){
-                        break;
+                        break
                     }
                 }
-                 newFace = newFace?.next
+                 newFace = curFace.next
             }
             if (maxFace != nil){
-                addPointToFace (vtx!, face: maxFace!);
+                addPointToFace (vtx!, face: maxFace!)
                 if (debug && vtx!.index == findIndex){
-                    print("\(findIndex) CLAIMED BY \(maxFace!.getVertexString())");
+                    print("\(findIndex) CLAIMED BY \(maxFace!.getVertexString())")
                 }
             }
             else{
                 if (debug && vtx!.index == findIndex){
-                    print("\(findIndex)  DISCARDED");
+                    print("\(findIndex)  DISCARDED")
                 } 
             }
              vtx = vtxNext
@@ -889,33 +805,33 @@ open class QuickHull3D
     
     func markFaceVertices ( _ face:Face,  mark:Int)
     {
-        let he0 = face.getFirstEdge();
-        var he = he0;
+        let he0 = face.firstEdge
+        var he = he0
         repeat
         {
-            he.head().index = mark;
-            he = he.next!;
-        }while (he !== he0);
+            he.head.index = mark
+            he = he.next!
+        }while (he !== he0)
     }
     
     
     func deleteFacePoints ( _ face:Face,  absorbingFace:Face?){
-        let faceVtxs = removeAllPointsFromFace (face);
+        let faceVtxs = removeAllPointsFromFace (face)
         if (faceVtxs != nil){
             if (absorbingFace == nil){
-                unclaimed.addAll (faceVtxs!);
+                unclaimed.addAll (faceVtxs!)
             }
             else{
-                var vtxNext = faceVtxs;
+                var vtxNext = faceVtxs
                 var vtx = vtxNext
                 while vtx != nil {
-                    vtxNext = vtx!.next;
-                    let dist = absorbingFace!.distanceToPlane(vtx!.pnt);
+                    vtxNext = vtx!.next
+                    let dist = absorbingFace!.distanceToPlane(vtx!.pnt)
                     if (dist > tolerance){
-                        addPointToFace(vtx!,face: absorbingFace!);
+                        addPointToFace(vtx!,face: absorbingFace!)
                     }
                     else{
-                        unclaimed.add(vtx!);
+                        unclaimed.add(vtx!)
                     }
                     vtx = vtxNext
                 }
@@ -924,15 +840,15 @@ open class QuickHull3D
     }
     
     func addAdjoiningFace(_ eyeVtx:Vertex, he:HalfEdge ) -> HalfEdge{
-        let face = Face.createTriangle (eyeVtx, v1: he.tail()!, v2: he.head());
-        faces.append(face);
-        face.getEdge(-1).setOpposite(he.opposite!);
-        return face.getEdge(0);
+        let face = Face.createTriangle (eyeVtx, v1: he.tail!, v2: he.head)
+        faces.append(face)
+        face.getEdge(-1).setOpposite(he.opposite!)
+        return face.getEdge(0)
     }
     
     func oppFaceDistance (_ he:HalfEdge )->Double
     {
-        return he.face.distanceToPlane (he.opposite!.face.getCentroid());
+        return he.face.distanceToPlane (he.opposite!.face.centroid)
     }
     
     
@@ -942,22 +858,18 @@ open class QuickHull3D
     * and hence appear to be non-convex (this same limitation is present
     * in <a href=http://www.qhull.org>qhull</a>).
     */
-    open func triangulate()
+    public func triangulate()
     {
-        let minArea = 1000 * charLength * QuickHull3D.DOUBLE_PREC;
-        newFaces.clear();
+        let minArea = 1000 * charLength * QuickHull3D.DOUBLE_PREC
+        newFaces.clear()
         
-        for face in faces{
-            if(face.mark == Face.VISIBLE)
-            {
-                face.triangulate(newFaces, minArea: minArea);
-
-            }
+        for face in faces where face.mark == .visible {
+            face.triangulate(newFaces, minArea: minArea)
         }
 
         var face = newFaces.first()
         while face != nil {
-            faces.append(face!);
+            faces.append(face!)
             face = face?.next
         }
     }

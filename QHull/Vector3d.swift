@@ -25,26 +25,17 @@ import Foundation
 /// inspired by javax.vecmath). Only a mininal number of methods
 /// which are relevant to convex hull generation are supplied here.
 /// @author John E. Lloyd, Fall 2004
-open class Vector3d:CustomStringConvertible{
+public class Vector3d: CustomStringConvertible {
     /**
     * Precision of a double.
     */
     static let DOUBLE_PREC = 2.2204460492503131e-16;
-    
-    /**
-    * First element
-    */
-    open var x:Double = 0;
-    
-    /**
-    * Second element
-    */
-    open var y:Double = 0;
-    
-    /**
-    * Third element
-    */
-    open var z:Double = 0;
+
+    public var x:Double = 0;
+
+    public var y:Double = 0;
+
+    public var z:Double = 0;
     
     /**
     * Creates a 3-vector and initializes its elements to 0.
@@ -82,7 +73,7 @@ open class Vector3d:CustomStringConvertible{
     * @return element value throws ArrayIndexOutOfBoundsException
     * if i is not in the range 0 to 2.
     */
-    open func get(_ i:Int)->Double{
+    func get(_ i:Int)->Double{
         
         switch (i){
         case 0:
@@ -106,7 +97,7 @@ open class Vector3d:CustomStringConvertible{
     * @return element value throws ArrayIndexOutOfBoundsException
     * if i is not in the range 0 to 2.
     */
-    open func set( _ i:Int,  value:Double){
+    func set( _ i:Int,  value:Double){
         switch (i){
         case 0:
             x = value;
@@ -124,7 +115,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @param v1 vector whose values are copied
     */
-    open func set( _ v1:Vector3d)
+    func set( _ v1:Vector3d)
     {
 	   x = v1.x;
 	   y = v1.y;
@@ -137,7 +128,7 @@ open class Vector3d:CustomStringConvertible{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    open func add (_ v1:Vector3d , v2:Vector3d)
+    func add (_ v1:Vector3d , v2:Vector3d)
     {
 	   x = v1.x + v2.x;
 	   y = v1.y + v2.y;
@@ -149,7 +140,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @param v1 right-hand vector
     */
-    open func add (_ v1:Vector3d )
+    func add (_ v1:Vector3d )
     {
 	   x += v1.x;
 	   y += v1.y;
@@ -162,7 +153,7 @@ open class Vector3d:CustomStringConvertible{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    open func sub (_ v1:Vector3d , v2:Vector3d)
+    func sub (_ v1:Vector3d , v2:Vector3d)
     {
 	   x = v1.x - v2.x;
 	   y = v1.y - v2.y;
@@ -174,7 +165,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @param v1 right-hand vector
     */
-    open func sub (_ v1:Vector3d )
+    func sub (_ v1:Vector3d )
     {
 	   x -= v1.x;
 	   y -= v1.y;
@@ -186,7 +177,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @param s scaling factor
     */
-    open func scale (_ s:Double)
+    func scale (_ s:Double)
     {
 	   x = s*x;
 	   y = s*y;
@@ -200,7 +191,7 @@ open class Vector3d:CustomStringConvertible{
     * @param s scaling factor
     * @param v1 vector to be scaled
     */
-    open func scale (_ s:Double, v1:Vector3d )
+    func scale (_ s:Double, v1:Vector3d )
     {
 	   x = s*v1.x;
 	   y = s*v1.y;
@@ -213,7 +204,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @return vector 2 norm
     */
-    open func norm()->Double
+    func norm()->Double
     {
 	   return sqrt(x*x + y*y + z*z);
     }
@@ -224,7 +215,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @return square of the 2 norm
     */
-    open func normSquared()->Double
+    func normSquared()->Double
     {
 	   return x*x + y*y + z*z;
     }
@@ -234,7 +225,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @return distance between this vector and v
     */
-    open func distance(_ v:Vector3d)->Double
+    func distance(_ v:Vector3d)->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -249,7 +240,7 @@ open class Vector3d:CustomStringConvertible{
     *
     * @return squared distance between this vector and v
     */
-    open func distanceSquared(_ v:Vector3d )->Double
+    func distanceSquared(_ v:Vector3d )->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -264,7 +255,7 @@ open class Vector3d:CustomStringConvertible{
     * @param v1 right-hand vector
     * @return dot product
     */
-    open func dot (_ v1:Vector3d )->Double
+    func dot (_ v1:Vector3d )->Double
     {
 	   return x*v1.x + y*v1.y + z*v1.z;
     }
@@ -272,7 +263,7 @@ open class Vector3d:CustomStringConvertible{
     /**
     * Normalizes this vector in place.
     */
-    open func normalize()
+    func normalize()
     {
         let lenSqr = x*x + y*y + z*z;
         let err = lenSqr - 1;
@@ -288,7 +279,7 @@ open class Vector3d:CustomStringConvertible{
     /**
     * Sets the elements of this vector to zero.
     */
-    open func setZero()
+    func setZero()
     {
 	   x = 0;
 	   y = 0;
@@ -302,7 +293,7 @@ open class Vector3d:CustomStringConvertible{
     * @param y value for second element
     * @param z value for third element
     */
-    open func set (_ x:Double,  y:Double,  z:Double)
+    func set (_ x:Double,  y:Double,  z:Double)
     {
 	   self.x = x;
 	   self.y = y;
@@ -316,7 +307,7 @@ open class Vector3d:CustomStringConvertible{
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    open func cross (_ v1:Vector3d , v2:Vector3d)
+    func cross (_ v1:Vector3d , v2:Vector3d)
     {
 	   let tmpx = v1.y*v2.z - v1.z*v2.y;
 	   let tmpy = v1.z*v2.x - v1.x*v2.z;
@@ -328,30 +319,12 @@ open class Vector3d:CustomStringConvertible{
     }
     
     /**
-    * Sets the elements of this vector to uniformly distributed
-    * random values in a specified range, using a supplied
-    * random number generator.
-    *
-    * @param lower lower random value (inclusive)
-    * @param upper upper random value (exclusive)
-    * @param generator random number generator
-    */
-    func setRandom ( _ lower:Double,  upper:Double, generator:Random)
-    {
-	   let range = upper-lower;
-    
-	   x = generator.nextDouble()*range + lower;
-	   y = generator.nextDouble()*range + lower;
-	   z = generator.nextDouble()*range + lower;
-    }
-    
-    /**
     * Returns a string representation of this vector, consisting
     * of the x, y, and z coordinates.
     *
     * @return string representation
     */
-    open var description:String{
+    public var description: String {
     
 	   return "\(x) \(y) \(z)"
     }

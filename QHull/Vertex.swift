@@ -14,11 +14,11 @@ import Foundation
 *
 * @author John E. Lloyd, Fall 2004
 */
-open class Vertex{
+public final class Vertex {
     /**
     * Spatial point associated with this vertex.
     */
-    var pnt:Point3d
+    public var pnt: Point3d
 
     /**
     * Back index into an array.
@@ -38,12 +38,12 @@ open class Vertex{
     /**
     * Current face that this vertex is outside of.
     */
-    var face:Face? = nil
+    var face: Face? = nil
     
     /**
     * Constructs a vertex and sets its coordinates to 0.
     */
-    init(){
+    internal init(){
         pnt = Point3d()
     }
     
@@ -51,7 +51,7 @@ open class Vertex{
     * Constructs a vertex with the specified coordinates
     * and index.
     */
-    init(x:Double, y:Double, z:Double, idx:Int){
+    internal init(x:Double, y:Double, z:Double, idx:Int){
         pnt = Point3d(x: x, y: y, z: z)
         index  = idx
     }

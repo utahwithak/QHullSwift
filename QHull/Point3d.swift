@@ -31,18 +31,9 @@ import SceneKit
 *
 * @author John E. Lloyd, Fall 2004
 */
-open class Point3d:Vector3d {
+public class Point3d: Vector3d {
     public override init(){
         super.init()
-    }
-    /**
-    * Creates a Point3d by copying a vector
-    *
-    * @param v vector to be copied
-    */
-    public override init( v:Vector3d)
-    {
-        super.init(v: v)
     }
 
     public convenience init( v:SCNVector3) {

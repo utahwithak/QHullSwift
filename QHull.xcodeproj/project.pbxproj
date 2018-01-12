@@ -18,7 +18,6 @@
 		4650D15A1AF032D500602E94 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1511AF032D500602E94 /* Vertex.swift */; };
 		4650D15B1AF032D500602E94 /* Point3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1521AF032D500602E94 /* Point3d.swift */; };
 		4650D15C1AF032D500602E94 /* VertexList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1531AF032D500602E94 /* VertexList.swift */; };
-		4650D15D1AF032D500602E94 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1541AF032D500602E94 /* Random.swift */; };
 		8F7EA02B1D9C3055008A0C74 /* QHull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7EA0221D9C3055008A0C74 /* QHull.framework */; };
 		8F7EA0301D9C3055008A0C74 /* QHull_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7EA02F1D9C3055008A0C74 /* QHull_macOSTests.swift */; };
 		8F7EA0321D9C3055008A0C74 /* QHull-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F7EA0241D9C3055008A0C74 /* QHull-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,7 +29,6 @@
 		8F7EA03E1D9C305E008A0C74 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1511AF032D500602E94 /* Vertex.swift */; };
 		8F7EA03F1D9C305E008A0C74 /* Point3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1521AF032D500602E94 /* Point3d.swift */; };
 		8F7EA0401D9C305E008A0C74 /* VertexList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1531AF032D500602E94 /* VertexList.swift */; };
-		8F7EA0411D9C305E008A0C74 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1541AF032D500602E94 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +63,6 @@
 		4650D1511AF032D500602E94 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		4650D1521AF032D500602E94 /* Point3d.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3d.swift; sourceTree = "<group>"; };
 		4650D1531AF032D500602E94 /* VertexList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexList.swift; sourceTree = "<group>"; };
-		4650D1541AF032D500602E94 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		8F7EA0221D9C3055008A0C74 /* QHull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QHull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7EA0241D9C3055008A0C74 /* QHull-macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QHull-macOS.h"; sourceTree = "<group>"; };
 		8F7EA0251D9C3055008A0C74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -142,7 +139,6 @@
 				4650D1511AF032D500602E94 /* Vertex.swift */,
 				4650D1521AF032D500602E94 /* Point3d.swift */,
 				4650D1531AF032D500602E94 /* VertexList.swift */,
-				4650D1541AF032D500602E94 /* Random.swift */,
 				4650D1331AF032CB00602E94 /* Supporting Files */,
 			);
 			path = QHull;
@@ -379,7 +375,6 @@
 				4650D15C1AF032D500602E94 /* VertexList.swift in Sources */,
 				4650D1571AF032D500602E94 /* HalfEdge.swift in Sources */,
 				4650D15A1AF032D500602E94 /* Vertex.swift in Sources */,
-				4650D15D1AF032D500602E94 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,7 +398,6 @@
 				8F7EA0401D9C305E008A0C74 /* VertexList.swift in Sources */,
 				8F7EA03B1D9C305E008A0C74 /* HalfEdge.swift in Sources */,
 				8F7EA03E1D9C305E008A0C74 /* Vertex.swift in Sources */,
-				8F7EA0411D9C305E008A0C74 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
