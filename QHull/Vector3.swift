@@ -17,15 +17,9 @@
 */
 
 import Foundation
+import SceneKit
 
-
-
-/// A three-element vector. This class is actually a reduced version of the
-/// Vector3d class contained in the author's matlib package (which was partly
-/// inspired by javax.vecmath). Only a mininal number of methods
-/// which are relevant to convex hull generation are supplied here.
-/// @author John E. Lloyd, Fall 2004
-public class Vector3d: CustomStringConvertible {
+public struct Vector3: CustomStringConvertible {
     /**
     * Precision of a double.
     */
@@ -37,55 +31,53 @@ public class Vector3d: CustomStringConvertible {
 
     public var z:Double = 0;
     
-    /**
-    * Creates a 3-vector and initializes its elements to 0.
-    */
+
     public init()
     {
     }
-    
-    /**
-    * Creates a 3-vector by copying an existing one.
-    *
-    * @param v vector to be copied
-    */
-    public init( v:Vector3d){
-	   set(v);
+
+    public init( v:SCNVector3) {
+        self.init(x: v.x, y: v.y, z: v.z)
     }
-    
-    /**
-    * Creates a 3-vector with the supplied element values.
-    *
-    * @param x first element
-    * @param y second element
-    * @param z third element
-    */
+
+    public init(x: CGFloat, y: CGFloat, z: CGFloat) {
+        self.init(x: Double(x), y: Double(y), z: Double(z))
+    }
+
     public init ( x:Double,  y:Double,  z:Double)
     {
-	   set (x, y: y, z: z);
+        set (x, y: y, z: z);
     }
-    
-    /**
-    * Gets a single element of this vector.
-    * Elements 0, 1, and 2 correspond to x, y, and z.
-    *
-    * @param i element index
-    * @return element value throws ArrayIndexOutOfBoundsException
-    * if i is not in the range 0 to 2.
-    */
-    func get(_ i:Int)->Double{
-        
-        switch (i){
-        case 0:
-            return x;
-        case 1:
-            return y;
-        case 2:
-            return z;
-        default:
-            assert(false, "ERROR OUT OF BOUNDS")
+
+    public init( v:Vector3){
+	   set(v);
+    }
+
+    subscript (index: Int) -> Double {
+        get {
+            switch index{
+            case 0:
+                return x
+            case 1:
+                return y
+            case 2:
+                return z
+            default:
+                fatalError("Index out of bounds for vector3")
+            }
         }
-        return -1
+        set {
+            switch index{
+            case 0:
+                x = newValue
+            case 1:
+                y = newValue
+            case 2:
+                z = newValue
+            default:
+                fatalError("Index out of bounds for vector3")
+            }
+        }
     }
     
     /**
@@ -97,7 +89,7 @@ public class Vector3d: CustomStringConvertible {
     * @return element value throws ArrayIndexOutOfBoundsException
     * if i is not in the range 0 to 2.
     */
-    func set( _ i:Int,  value:Double){
+    mutating func set( _ i:Int,  value:Double){
         switch (i){
         case 0:
             x = value;
@@ -115,7 +107,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @param v1 vector whose values are copied
     */
-    func set( _ v1:Vector3d)
+    mutating func set( _ v1:Vector3)
     {
 	   x = v1.x;
 	   y = v1.y;
@@ -128,7 +120,7 @@ public class Vector3d: CustomStringConvertible {
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    func add (_ v1:Vector3d , v2:Vector3d)
+    mutating func add (_ v1:Vector3 , v2:Vector3)
     {
 	   x = v1.x + v2.x;
 	   y = v1.y + v2.y;
@@ -140,7 +132,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @param v1 right-hand vector
     */
-    func add (_ v1:Vector3d )
+    mutating func add (_ v1:Vector3 )
     {
 	   x += v1.x;
 	   y += v1.y;
@@ -153,7 +145,7 @@ public class Vector3d: CustomStringConvertible {
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    func sub (_ v1:Vector3d , v2:Vector3d)
+    mutating func sub (_ v1:Vector3 , v2:Vector3)
     {
 	   x = v1.x - v2.x;
 	   y = v1.y - v2.y;
@@ -165,7 +157,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @param v1 right-hand vector
     */
-    func sub (_ v1:Vector3d )
+    mutating func sub (_ v1:Vector3 )
     {
 	   x -= v1.x;
 	   y -= v1.y;
@@ -177,7 +169,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @param s scaling factor
     */
-    func scale (_ s:Double)
+    mutating func scale (_ s:Double)
     {
 	   x = s*x;
 	   y = s*y;
@@ -191,7 +183,7 @@ public class Vector3d: CustomStringConvertible {
     * @param s scaling factor
     * @param v1 vector to be scaled
     */
-    func scale (_ s:Double, v1:Vector3d )
+    mutating func scale (_ s:Double, v1:Vector3 )
     {
 	   x = s*v1.x;
 	   y = s*v1.y;
@@ -225,7 +217,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @return distance between this vector and v
     */
-    func distance(_ v:Vector3d)->Double
+    func distance(_ v:Vector3)->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -240,7 +232,7 @@ public class Vector3d: CustomStringConvertible {
     *
     * @return squared distance between this vector and v
     */
-    func distanceSquared(_ v:Vector3d )->Double
+    func distanceSquared(_ v:Vector3 )->Double
     {
         let dx = x - v.x;
         let dy = y - v.y;
@@ -255,7 +247,7 @@ public class Vector3d: CustomStringConvertible {
     * @param v1 right-hand vector
     * @return dot product
     */
-    func dot (_ v1:Vector3d )->Double
+    func dot (_ v1:Vector3 )->Double
     {
 	   return x*v1.x + y*v1.y + z*v1.z;
     }
@@ -263,11 +255,11 @@ public class Vector3d: CustomStringConvertible {
     /**
     * Normalizes this vector in place.
     */
-    func normalize()
+    mutating func normalize()
     {
         let lenSqr = x*x + y*y + z*z;
         let err = lenSqr - 1;
-        if (err > (2*Vector3d.DOUBLE_PREC) || err < -(2*Vector3d.DOUBLE_PREC))
+        if (err > (2*Vector3.DOUBLE_PREC) || err < -(2*Vector3.DOUBLE_PREC))
         {
             let len = sqrt(lenSqr);
             x /= len;
@@ -279,7 +271,7 @@ public class Vector3d: CustomStringConvertible {
     /**
     * Sets the elements of this vector to zero.
     */
-    func setZero()
+    mutating func setZero()
     {
 	   x = 0;
 	   y = 0;
@@ -293,7 +285,7 @@ public class Vector3d: CustomStringConvertible {
     * @param y value for second element
     * @param z value for third element
     */
-    func set (_ x:Double,  y:Double,  z:Double)
+    mutating func set (_ x:Double,  y:Double,  z:Double)
     {
 	   self.x = x;
 	   self.y = y;
@@ -307,7 +299,7 @@ public class Vector3d: CustomStringConvertible {
     * @param v1 left-hand vector
     * @param v2 right-hand vector
     */
-    func cross (_ v1:Vector3d , v2:Vector3d)
+    mutating func cross (_ v1:Vector3 , v2:Vector3)
     {
 	   let tmpx = v1.y*v2.z - v1.z*v2.y;
 	   let tmpy = v1.z*v2.x - v1.x*v2.z;
@@ -317,13 +309,7 @@ public class Vector3d: CustomStringConvertible {
 	   y = tmpy;
 	   z = tmpz;
     }
-    
-    /**
-    * Returns a string representation of this vector, consisting
-    * of the x, y, and z coordinates.
-    *
-    * @return string representation
-    */
+
     public var description: String {
     
 	   return "\(x) \(y) \(z)"

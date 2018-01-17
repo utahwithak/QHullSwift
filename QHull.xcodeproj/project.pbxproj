@@ -14,9 +14,8 @@
 		4650D1561AF032D500602E94 /* FaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14D1AF032D500602E94 /* FaceList.swift */; };
 		4650D1571AF032D500602E94 /* HalfEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14E1AF032D500602E94 /* HalfEdge.swift */; };
 		4650D1581AF032D500602E94 /* QuickHull3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14F1AF032D500602E94 /* QuickHull3D.swift */; };
-		4650D1591AF032D500602E94 /* Vector3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1501AF032D500602E94 /* Vector3d.swift */; };
+		4650D1591AF032D500602E94 /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1501AF032D500602E94 /* Vector3.swift */; };
 		4650D15A1AF032D500602E94 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1511AF032D500602E94 /* Vertex.swift */; };
-		4650D15B1AF032D500602E94 /* Point3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1521AF032D500602E94 /* Point3d.swift */; };
 		4650D15C1AF032D500602E94 /* VertexList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1531AF032D500602E94 /* VertexList.swift */; };
 		8F7EA02B1D9C3055008A0C74 /* QHull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7EA0221D9C3055008A0C74 /* QHull.framework */; };
 		8F7EA0301D9C3055008A0C74 /* QHull_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7EA02F1D9C3055008A0C74 /* QHull_macOSTests.swift */; };
@@ -25,9 +24,8 @@
 		8F7EA03A1D9C305E008A0C74 /* FaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14D1AF032D500602E94 /* FaceList.swift */; };
 		8F7EA03B1D9C305E008A0C74 /* HalfEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14E1AF032D500602E94 /* HalfEdge.swift */; };
 		8F7EA03C1D9C305E008A0C74 /* QuickHull3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D14F1AF032D500602E94 /* QuickHull3D.swift */; };
-		8F7EA03D1D9C305E008A0C74 /* Vector3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1501AF032D500602E94 /* Vector3d.swift */; };
+		8F7EA03D1D9C305E008A0C74 /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1501AF032D500602E94 /* Vector3.swift */; };
 		8F7EA03E1D9C305E008A0C74 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1511AF032D500602E94 /* Vertex.swift */; };
-		8F7EA03F1D9C305E008A0C74 /* Point3d.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1521AF032D500602E94 /* Point3d.swift */; };
 		8F7EA0401D9C305E008A0C74 /* VertexList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650D1531AF032D500602E94 /* VertexList.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,9 +57,8 @@
 		4650D14D1AF032D500602E94 /* FaceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceList.swift; sourceTree = "<group>"; };
 		4650D14E1AF032D500602E94 /* HalfEdge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfEdge.swift; sourceTree = "<group>"; };
 		4650D14F1AF032D500602E94 /* QuickHull3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickHull3D.swift; sourceTree = "<group>"; };
-		4650D1501AF032D500602E94 /* Vector3d.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3d.swift; sourceTree = "<group>"; };
+		4650D1501AF032D500602E94 /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
 		4650D1511AF032D500602E94 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
-		4650D1521AF032D500602E94 /* Point3d.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3d.swift; sourceTree = "<group>"; };
 		4650D1531AF032D500602E94 /* VertexList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexList.swift; sourceTree = "<group>"; };
 		8F7EA0221D9C3055008A0C74 /* QHull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QHull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7EA0241D9C3055008A0C74 /* QHull-macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QHull-macOS.h"; sourceTree = "<group>"; };
@@ -135,9 +132,8 @@
 				4650D14D1AF032D500602E94 /* FaceList.swift */,
 				4650D14E1AF032D500602E94 /* HalfEdge.swift */,
 				4650D14F1AF032D500602E94 /* QuickHull3D.swift */,
-				4650D1501AF032D500602E94 /* Vector3d.swift */,
+				4650D1501AF032D500602E94 /* Vector3.swift */,
 				4650D1511AF032D500602E94 /* Vertex.swift */,
-				4650D1521AF032D500602E94 /* Point3d.swift */,
 				4650D1531AF032D500602E94 /* VertexList.swift */,
 				4650D1331AF032CB00602E94 /* Supporting Files */,
 			);
@@ -288,7 +284,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Carl Wieland";
 				TargetAttributes = {
 					4650D12F1AF032CB00602E94 = {
@@ -302,6 +298,7 @@
 					8F7EA0211D9C3055008A0C74 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = QV4QS82KBT;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					8F7EA0291D9C3055008A0C74 = {
@@ -368,10 +365,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4650D1561AF032D500602E94 /* FaceList.swift in Sources */,
-				4650D15B1AF032D500602E94 /* Point3d.swift in Sources */,
 				4650D1581AF032D500602E94 /* QuickHull3D.swift in Sources */,
 				4650D1551AF032D500602E94 /* Face.swift in Sources */,
-				4650D1591AF032D500602E94 /* Vector3d.swift in Sources */,
+				4650D1591AF032D500602E94 /* Vector3.swift in Sources */,
 				4650D15C1AF032D500602E94 /* VertexList.swift in Sources */,
 				4650D1571AF032D500602E94 /* HalfEdge.swift in Sources */,
 				4650D15A1AF032D500602E94 /* Vertex.swift in Sources */,
@@ -391,10 +387,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7EA03A1D9C305E008A0C74 /* FaceList.swift in Sources */,
-				8F7EA03F1D9C305E008A0C74 /* Point3d.swift in Sources */,
 				8F7EA03C1D9C305E008A0C74 /* QuickHull3D.swift in Sources */,
 				8F7EA0391D9C305E008A0C74 /* Face.swift in Sources */,
-				8F7EA03D1D9C305E008A0C74 /* Vector3d.swift in Sources */,
+				8F7EA03D1D9C305E008A0C74 /* Vector3.swift in Sources */,
 				8F7EA0401D9C305E008A0C74 /* VertexList.swift in Sources */,
 				8F7EA03B1D9C305E008A0C74 /* HalfEdge.swift in Sources */,
 				8F7EA03E1D9C305E008A0C74 /* Vertex.swift in Sources */,
@@ -433,14 +428,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -484,14 +485,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -619,7 +626,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -647,7 +655,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

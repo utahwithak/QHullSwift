@@ -21,16 +21,7 @@
 
 import Foundation
 
-/**
-* Basic triangular face used to form the hull.
-*
-* <p>The information stored for each face consists of a planar
-* normal, a planar offset, and a doubly-linked list of three <a
-* href=HalfEdge>HalfEdges</a> which surround the face in a
-* counter-clockwise direction.
-*
-* @author John E. Lloyd, Fall 2004 */
-public final class Face{
+public final class Face {
 
     enum FaceType {
         case visible
@@ -40,9 +31,9 @@ public final class Face{
     
     
     internal private(set) var he0: HalfEdge!
-    public private(set) var normal = Vector3d() 
-    public private(set) var area:Double = 0
-    public private(set) var centroid = Point3d()
+    public private(set) var normal = Vector3() 
+    public private(set) var area: Double = 0
+    public private(set) var centroid = Vector3()
     public private(set) var planeOffset = 0.0
     
     var index = 0
@@ -54,7 +45,7 @@ public final class Face{
     
     var outside: Vertex? = nil
     
-    func computeCentroid (_ centroid:Point3d){
+    func computeCentroid(){
         centroid.setZero()
         var he = he0!
         repeat
@@ -66,9 +57,9 @@ public final class Face{
         centroid.scale(1.0/Double(vertCount))
     }
 
-    func computeNormal ( _ normal:Vector3d,  minArea:Double)
-    {
-        computeNormal(normal)
+    func computeNormal( minArea:Double) {
+
+        computeNormal()
         
         if (area < minArea)
         {
@@ -104,8 +95,7 @@ public final class Face{
         }
     }
   
-    func computeNormal ( _ normal:Vector3d)
-    {
+    func computeNormal(){
         var he1 = he0!.next!
         var he2 = he1.next!
         
@@ -144,8 +134,8 @@ public final class Face{
     }
 
     func computeNormalAndCentroid(){
-        computeNormal (normal)
-        computeCentroid (centroid)
+        computeNormal()
+        computeCentroid()
         planeOffset = normal.dot(centroid)
         var numv = 0
         var he = he0!
@@ -158,10 +148,9 @@ public final class Face{
         assert(numv == vertCount,"face \( getVertexString()) vertCount=\(vertCount) should be \(numv)")
     }
     
-    func computeNormalAndCentroid( _ minArea:Double)
-    {
-        computeNormal(normal, minArea: minArea)
-        computeCentroid (centroid)
+    func computeNormalAndCentroid( _ minArea:Double) {
+        computeNormal(minArea: minArea)
+        computeCentroid()
         planeOffset = normal.dot(centroid)
     }
     
@@ -274,9 +263,9 @@ public final class Face{
     * @param p the point
     * @return distance from the point to the plane
     */
-    func distanceToPlane (_ p:Point3d )->Double
+    func distance(to plane: Vector3) -> Double
     {
-	   return normal.x*p.x + normal.y*p.y + normal.z*p.z - planeOffset
+	   return normal.x * plane.x + normal.y * plane.y + normal.z * plane.z - planeOffset
     }
 
     func getVertexString ()->String{
@@ -377,7 +366,7 @@ public final class Face{
 //            assert(oppFace != nil , "face \(getVertexString()):no face on half edge \(hedgeOpp!.getVertexString())")
             assert(oppFace.mark != .deleted,"face \(getVertexString()): opposite face \(oppFace.getVertexString()) not on hull")
             
-            let d = abs(distanceToPlane((hedge?.head.pnt)!))
+            let d = abs(distance(to: hedge!.head.pnt))
             if (d > maxd)
             {
                 maxd = d

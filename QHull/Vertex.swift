@@ -18,7 +18,7 @@ public final class Vertex {
     /**
     * Spatial point associated with this vertex.
     */
-    public var pnt: Point3d
+    public var pnt: Vector3
 
     /**
     * Back index into an array.
@@ -44,7 +44,7 @@ public final class Vertex {
     * Constructs a vertex and sets its coordinates to 0.
     */
     internal init(){
-        pnt = Point3d()
+        pnt = Vector3()
     }
     
     /**
@@ -52,7 +52,7 @@ public final class Vertex {
     * and index.
     */
     internal init(x:Double, y:Double, z:Double, idx:Int){
-        pnt = Point3d(x: x, y: y, z: z)
+        pnt = Vector3(x: x, y: y, z: z)
         index  = idx
     }
     

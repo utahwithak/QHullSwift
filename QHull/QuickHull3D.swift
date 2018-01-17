@@ -34,30 +34,30 @@ import Foundation
 *
 * <p>A hull is constructed by providing a set of points
 * to either a constructor or a
-* {@link #build(Point3d[]) build} method. After
+* {@link #build(Vector3[]) build} method. After
 * the hull is built, its vertices and faces can be retrieved
 * using {@link #getVertices()
 * getVertices} and {@link #getFaces() getFaces}.
 * A typical usage might look like this:
 * <pre>
 *   // x y z coordinates of 6 points
-*   Point3d[] points = new Point3d[]
-*    { new Point3d (0.0,  0.0,  0.0),
-*      new Point3d (1.0,  0.5,  0.0),
-*      new Point3d (2.0,  0.0,  0.0),
-*      new Point3d (0.5,  0.5,  0.5),
-*      new Point3d (0.0,  0.0,  2.0),
-*      new Point3d (0.1,  0.2,  0.3),
-*      new Point3d (0.0,  2.0,  0.0),
+*   Vector3[] points = new Vector3[]
+*    { new Vector3 (0.0,  0.0,  0.0),
+*      new Vector3 (1.0,  0.5,  0.0),
+*      new Vector3 (2.0,  0.0,  0.0),
+*      new Vector3 (0.5,  0.5,  0.5),
+*      new Vector3 (0.0,  0.0,  2.0),
+*      new Vector3 (0.1,  0.2,  0.3),
+*      new Vector3 (0.0,  2.0,  0.0),
 *    }
 *
 *   QuickHull3D hull = new QuickHull3D()
 *   hull.build (points)
 *
 *   println ("Vertices:")
-*   Point3d[] vertices = hull.getVertices()
+*   Vector3[] vertices = hull.getVertices()
 *   for (int i = 0 i < vertices.length i++)
-*    { Point3d pnt = vertices[i]
+*    { Vector3 pnt = vertices[i]
 *      println (pnt.x + " " + pnt.y + " " + pnt.z)
 *    }
 *
@@ -187,8 +187,8 @@ public final class QuickHull3D
     */
     public init() {  }
 
-    public var vertices: [Point3d] {
-        var vtxs =  [Point3d]()
+    public var vertices: [Vector3] {
+        var vtxs =  [Vector3]()
         for i in 0..<vertCount{
             vtxs.append(pointBuffer[vertexPointIndices[i]].pnt)
         }
@@ -213,11 +213,11 @@ public final class QuickHull3D
         return faces.map({ faceIndices(for: $0, with: options)})
     }
     
-    func normalOfFace(at index:Int)->Vector3d{
+    func normalOfFace(at index:Int)->Vector3{
         return faces[index].normal
     }
 
-    func normalOf(face: Face) -> Vector3d {
+    func normalOf(face: Face) -> Vector3 {
         return face.normal
     }
     
@@ -255,7 +255,7 @@ public final class QuickHull3D
     * than four, or the points appear to be coincident, colinear, or
     * coplanar.
     */
-    public init(points:[Point3d]) {
+    public init(points:[Vector3]) {
 	   build(points)
     }
 
@@ -309,7 +309,7 @@ public final class QuickHull3D
         }
     }
     
-    public func build (_ points:[Point3d])
+    public func build (_ points:[Vector3])
     {
         let nump = points.count
         assert(nump >= 4,"Less than four input points specified")
@@ -338,7 +338,7 @@ public final class QuickHull3D
         numPoints = nump
     }
 
-    func setPoints (_ pnts:[Point3d],  nump:Int){
+    func setPoints (_ pnts:[Vector3],  nump:Int){
         for i in 0..<nump{
             let vtx = pointBuffer[i]
             vtx.pnt.set (pnts[i])
@@ -368,15 +368,15 @@ public final class QuickHull3D
     
     
     func computeMaxAndMin (){
-        let max = Vector3d()
-        let min = Vector3d()
+        var max = Vector3()
+        var min = Vector3()
     
         for i in 0..<3{
             minVtxs[i] = pointBuffer[0]
             maxVtxs[i] = minVtxs[i]
         }
-        max.set (pointBuffer[0].pnt)
-        min.set (pointBuffer[0].pnt)
+        max = pointBuffer[0].pnt
+        min = pointBuffer[0].pnt
     
         for i in 1..<numPoints
         {
@@ -435,7 +435,7 @@ public final class QuickHull3D
 	   var imax = 0
     
         for i in 0..<3{
-            let diff = maxVtxs[i].pnt.get(i)-minVtxs[i].pnt.get(i)
+            let diff = maxVtxs[i].pnt[i] - minVtxs[i].pnt[i]
             if (diff > max)
             {
                 max = diff
@@ -452,10 +452,10 @@ public final class QuickHull3D
     
         // set third vertex to be the vertex farthest from
         // the line between vtx0 and vtx1
-        let u01 = Vector3d()
-        let diff02 = Vector3d()
-        let nrml = Vector3d()
-        let xprod = Vector3d()
+        var u01 = Vector3()
+        var diff02 = Vector3()
+        var nrml = Vector3()
+        var xprod = Vector3()
         
         var maxSqr = 0.0
         u01.sub(vtx[1].pnt, v2: vtx[0].pnt)
@@ -542,7 +542,7 @@ public final class QuickHull3D
             maxDist = tolerance
             var maxFace:Face? = nil
             for k in 0..<4{
-                let dist = tris[k].distanceToPlane (v.pnt)
+                let dist = tris[k].distance(to: v.pnt)
                 if (dist > maxDist)
                 {
                     maxFace = tris[k]
@@ -566,7 +566,7 @@ public final class QuickHull3D
             var maxDist = 0.0
             var vtx = eyeFace!.outside
             while vtx != nil && vtx!.face === eyeFace {
-                let dist = eyeFace!.distanceToPlane(vtx!.pnt)
+                let dist = eyeFace!.distance(to: vtx!.pnt)
                 if (dist > maxDist)
                 {
                     maxDist = dist
@@ -588,7 +588,7 @@ public final class QuickHull3D
         if (debug)
         {
             print("Adding point:\(eyeVtx.index)")
-            print(" which is \(eyeVtx.face!.distanceToPlane(eyeVtx.pnt)) above face \(eyeVtx.face!.getVertexString())")
+            print(" which is \(eyeVtx.face!.distance(to: eyeVtx.pnt)) above face \(eyeVtx.face!.getVertexString())")
         }
         removePointFromFace (eyeVtx, face: eyeVtx.face!)
         calculateHorizon (eyeVtx.pnt, edge: nil, face: eyeVtx.face!, horizon: &horizon)
@@ -645,7 +645,7 @@ public final class QuickHull3D
         }
     }
     
-    func calculateHorizon (  _ eyePnt:Point3d,  edge edgeIn:HalfEdge?,  face:Face,horizon:inout [HalfEdge]){
+    func calculateHorizon (  _ eyePnt:Vector3,  edge edgeIn:HalfEdge?,  face:Face,horizon:inout [HalfEdge]){
         //     oldFaces.add (face)
         var edge0 = edgeIn
         deleteFacePoints (face, absorbingFace: nil)
@@ -667,7 +667,7 @@ public final class QuickHull3D
         {
             let oppFace = edge.oppositeFace!
             if oppFace.mark == .visible {
-                if (oppFace.distanceToPlane (eyePnt) > tolerance){
+                if (oppFace.distance(to: eyePnt) > tolerance){
         
                     calculateHorizon(eyePnt, edge: edge.opposite, face: oppFace, horizon: &horizon)
                 }
@@ -746,7 +746,7 @@ public final class QuickHull3D
     
             if (merge){
                 if (debug){
-                    print("  merging \(face.getVertexString()) and \( oppFace?.getVertexString())")
+                    print("  merging \(face.getVertexString()) and \( oppFace!.getVertexString())")
                 }
     
                 let numd = face.mergeAdjacentFace (hedge!, discarded: &discardedFaces)
@@ -777,7 +777,7 @@ public final class QuickHull3D
             var newFace = newFaces.first()
             while let curFace = newFace {
                 if curFace.mark == .visible {
-                    let dist = curFace.distanceToPlane(vtx!.pnt)
+                    let dist = curFace.distance(to: vtx!.pnt)
                     if (dist > maxDist){
                         maxDist = dist
                         maxFace = newFace
@@ -826,7 +826,7 @@ public final class QuickHull3D
                 var vtx = vtxNext
                 while vtx != nil {
                     vtxNext = vtx!.next
-                    let dist = absorbingFace!.distanceToPlane(vtx!.pnt)
+                    let dist = absorbingFace!.distance(to: vtx!.pnt)
                     if (dist > tolerance){
                         addPointToFace(vtx!,face: absorbingFace!)
                     }
@@ -846,9 +846,9 @@ public final class QuickHull3D
         return face.getEdge(0)
     }
     
-    func oppFaceDistance (_ he:HalfEdge )->Double
+    func oppFaceDistance(_ he:HalfEdge ) -> Double
     {
-        return he.face.distanceToPlane (he.opposite!.face.centroid)
+        return he.face.distance(to: he.opposite!.face.centroid)
     }
     
     
