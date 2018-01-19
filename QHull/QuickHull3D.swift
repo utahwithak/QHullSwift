@@ -264,9 +264,6 @@ public final class QuickHull3D
     */
     static let DOUBLE_PREC = 2.2204460492503131e-16
     
-
-    
-    
     func addPointToFace ( _ vtx:Vertex,  face:Face)
     {
         vtx.face = face
